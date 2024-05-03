@@ -4,9 +4,14 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --navbar-padding: 1rem;
 }
 
 body {
   margin: 0;
   display: flex;
+}
+
+#root {
+  width: 100%;
 }
