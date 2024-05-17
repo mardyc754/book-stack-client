@@ -1,5 +1,7 @@
 import { request } from 'graphql-request';
-import { ZodSchema } from 'zod';
+import type { ZodSchema } from 'zod';
+
+import { GraphQLErrorResponse } from '@/types/common';
 
 export const executeRequest = async <T>(
   query: string,
@@ -11,7 +13,11 @@ export const executeRequest = async <T>(
   );
 
   if (response && response instanceof Object && 'errors' in response) {
-    throw new Error(response.errors);
+    throw new Error(
+      (response as GraphQLErrorResponse).errors
+        .map((error) => error.message)
+        .join('\n')
+    );
   }
 
   const parsedResponse = parser.parse(response);
