@@ -5,11 +5,13 @@ import { GraphQLErrorResponse } from '@/types/common';
 
 export const executeRequest = async <T>(
   query: string,
-  parser: ZodSchema<T>
+  parser: ZodSchema<T>,
+  variables?: Record<string, unknown>
 ) => {
   const response = await request<T>(
     import.meta.env.VITE_GRAPHQL_ENDPOINT!,
-    query
+    query,
+    variables
   );
 
   if (response && response instanceof Object && 'errors' in response) {

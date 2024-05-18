@@ -1,4 +1,14 @@
 import { BookWithRelations } from '@/graphql/schemas/common';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table';
+import { useMemo } from 'react';
+
+import { Button } from '../atoms/Button';
 
 const exampleData = [
   {
@@ -132,39 +142,163 @@ interface TableProps {
 }
 
 export const Table = ({ data }: TableProps) => {
+  const columns = useMemo<ColumnDef<BookWithRelations>[]>(
+    () => [
+      {
+        id: 'id',
+        header: 'ID',
+        cell: ({ row }) => <div>{row.id}</div>
+      },
+      {
+        id: 'title',
+        header: 'Title',
+        accessorFn: (row) => row.title,
+        cell: (info) => info.getValue()
+      },
+      {
+        id: 'category',
+        header: 'Category',
+        accessorFn: (row) => row.categories.map(({ name }) => name).join(', '),
+        cell: (info) => info.getValue()
+      },
+      {
+        id: 'authors',
+        header: 'Authors',
+        accessorFn: (row) =>
+          row.authors
+            .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
+            .join(', '),
+        cell: (info) => info.getValue()
+      },
+      {
+        id: 'publisher',
+        header: 'Publisher',
+        accessorFn: (row) => row.publisher.name,
+        cell: (info) => info.getValue()
+      },
+      {
+        id: 'price',
+        header: 'Price',
+        accessorFn: (row) => `${row.price} $`,
+        cell: (info) => info.getValue()
+      },
+      {
+        id: 'actions',
+        header: 'Actions',
+        cell: ({ row }) => (
+          <div className="flex gap-2">
+            <Button>Add to basket</Button>
+          </div>
+        )
+      }
+    ],
+    []
+  );
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel()
+  });
+
   return (
     <div className="overflow-x-auto">
       <table className="table">
-        {/* head */}
         <thead>
-          <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Authors</th>
-            <th>Publisher</th>
-            <th>Price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* {exampleData.map((book) => ( */}
-          {data.map(({ id, title, categories, authors, publisher, price }) => (
-            <tr key={id}>
-              <th>{id}</th>
-              <td>{title}</td>
-              <td>{categories.map(({ name }) => name).join(', ')}</td>
-              <td>
-                {authors
-                  .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
-                  .join(', ')}
-              </td>
-              <td>{publisher.name}</td>
-              <td>{price}</td>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id} colSpan={header.colSpan}>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
+                </th>
+              ))}
             </tr>
           ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+      <div className="flex items-center gap-2">
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        <span className="flex items-center gap-1">
+          | Go to page:
+          <input
+            type="number"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              table.setPageIndex(page);
+            }}
+            className="border p-1 rounded w-16"
+          />
+        </span>
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };

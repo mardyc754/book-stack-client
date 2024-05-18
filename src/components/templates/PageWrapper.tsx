@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Navbar } from '@/components/organisms/Navbar';
 
 type PageWrapperProps = {
@@ -10,7 +12,9 @@ export const PageWrapper = ({ children, title }: PageWrapperProps) => {
     <div className="w-full flex flex-col">
       <div className="navbar justify-between min-h-[10vh] border-b-2 border-b-base-content px-8">
         <header className="navbar-start">
-          <h1>Book Stack</h1>
+          <h1>
+            <Link to="/">Book Stack</Link>
+          </h1>
         </header>
         <Navbar />
       </div>

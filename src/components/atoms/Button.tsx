@@ -10,3 +10,14 @@ export const Button = ({
     </button>
   );
 };
+
+export const PrimaryButton = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button className="btn btn-primary" {...props}>
+      {children}
+    </button>
+  );
+};
