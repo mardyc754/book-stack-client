@@ -5,7 +5,7 @@ import { Table } from '@/components/organisms/Table';
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
 import { LoadingSpinner } from '../atoms/LoadingSpinner';
-import { BookCardList } from '../organisms/BookCardList';
+import { BookCardGrid } from '../organisms/BookCardGrid';
 
 export const Home = () => {
   const { data, error, isLoading } = useQuery({
@@ -20,7 +20,7 @@ export const Home = () => {
           <LoadingSpinner message="Loading data..." />
         </div>
       ) : (
-        <BookCardList data={data?.allBooks ?? []} />
+        <BookCardGrid data={data?.allBooks ?? []} />
       )}
       {error && <div>Error: {error.message}</div>}
     </PageWrapper>

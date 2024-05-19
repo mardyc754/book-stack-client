@@ -9,13 +9,13 @@ interface CardListProps {
   data: BookWithRelations[];
 }
 
-export const BookCardList = ({ data }: CardListProps) => {
+export const BookCardGrid = ({ data }: CardListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const paginationProps = useMemo(() => {
     return {
       currentPage,
-      totalPages: data.length / 10,
+      totalPages: data.length / 9,
       onPageChange: setCurrentPage,
       containerClassName: 'self-end'
     };
@@ -25,7 +25,7 @@ export const BookCardList = ({ data }: CardListProps) => {
   return (
     <div className="flex flex-col space-y-2">
       <Pagination {...paginationProps} />
-      <div className="flex flex-col space-y-2">
+      <div className="grid grid-cols-3 gap-3">
         {data.map((book) => (
           <BookCard key={book.id} data={book} />
         ))}
