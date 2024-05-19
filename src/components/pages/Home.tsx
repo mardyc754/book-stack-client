@@ -1,11 +1,11 @@
+import { getAllBooks } from '@/graphql/api/books';
 import { useQuery } from '@tanstack/react-query';
-
-import { getAllBooks } from '@/api/books';
 
 import { Table } from '@/components/organisms/Table';
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
 import { LoadingSpinner } from '../atoms/LoadingSpinner';
+import { BookCardGrid } from '../organisms/BookCardGrid';
 
 export const Home = () => {
   const { data, error, isLoading } = useQuery({
@@ -20,7 +20,7 @@ export const Home = () => {
           <LoadingSpinner message="Loading data..." />
         </div>
       ) : (
-        <Table data={data?.allBooks ?? []} />
+        <BookCardGrid data={data?.allBooks ?? []} />
       )}
       {error && <div>Error: {error.message}</div>}
     </PageWrapper>

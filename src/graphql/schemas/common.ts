@@ -21,7 +21,16 @@ export const bookSchema = z.object({
 
 export const bookWithRelationsSchema = bookSchema.extend({
   authors: z.array(authorSchema),
-  categories: z.array(categorySchema),
+  categories: z.array(categorySchema)
+});
+
+export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
+  description: z.string(),
+  ISBN: z.string(),
+  pageCount: z.number().int(),
+  publicationDate: z
+    .string()
+    .transform((value) => new Date(value).toLocaleDateString()),
   publisher: publisherSchema
 });
 
@@ -30,3 +39,4 @@ export type Category = z.infer<typeof categorySchema>;
 export type Publisher = z.infer<typeof publisherSchema>;
 export type Book = z.infer<typeof bookSchema>;
 export type BookWithRelations = z.infer<typeof bookWithRelationsSchema>;
+export type BookWithDetails = z.infer<typeof bookWithDetailsSchema>;

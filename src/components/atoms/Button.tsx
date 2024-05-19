@@ -10,3 +10,25 @@ export const Button = ({
     </button>
   );
 };
+
+export const PrimaryButton = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button className="btn btn-primary" {...props}>
+      {children}
+    </button>
+  );
+};
+
+export const PrimaryStretchedButton = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button className="btn btn-primary w-full" {...props}>
+      {children}
+    </button>
+  );
+};

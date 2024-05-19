@@ -13,7 +13,27 @@ export const allBooks = gql`
       }
       ISBN
       title
+      price
+    }
+  }
+`;
+
+export const bookById = gql`
+  query getBookById($id: ID!) {
+    bookById(id: $id) {
+      id
+      authors {
+        firstName
+        lastName
+      }
+      categories {
+        name
+      }
+      ISBN
+      title
       description
+      pageCount
+      publicationDate
       price
       publisher {
         name
