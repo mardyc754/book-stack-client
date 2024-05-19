@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { bookDetailsQuery } from '@/lib/tanstack-query/queries';
 
 import { LoadingSpinner } from '../atoms/LoadingSpinner';
+import { SectionBase } from '../molecules/sections/Section';
 import { BookDetailsCard } from '../organisms/cards/BookDetailsCard';
 import { PageWrapper } from '../templates/PageWrapper';
 
@@ -19,7 +20,14 @@ export const BookDetails = () => {
   return (
     <PageWrapper title="Book Details">
       {isLoading && <LoadingSpinner />}
-      {book && <BookDetailsCard book={book?.bookById} />}
+      {book && (
+        <div className="flex flex-col space-y-8">
+          <BookDetailsCard book={book?.bookById} />
+          <SectionBase title="Description">
+            <p>{book?.bookById.description}</p>
+          </SectionBase>
+        </div>
+      )}
     </PageWrapper>
   );
 };

@@ -1,4 +1,22 @@
-import { BookWithDetails, BookWithRelations } from '@/graphql/schemas/common';
+import { BookWithDetails } from '@/graphql/schemas/common';
+
+import {
+  Button,
+  PrimaryButton,
+  PrimaryStretchedButton
+} from '@/components/atoms/Button';
+import { Card } from '@/components/atoms/Card';
+import { Divider } from '@/components/atoms/Divider';
+import { Figure } from '@/components/atoms/Figure';
+import { Image } from '@/components/atoms/Image';
+import {
+  BoldFragment,
+  HighlightedTextFragment
+} from '@/components/atoms/TextFragment';
+import {
+  BasicTypography,
+  BoldLargeTypography
+} from '@/components/atoms/Typography';
 
 type BookDetailsCardProps = {
   book: BookWithDetails;
@@ -6,31 +24,47 @@ type BookDetailsCardProps = {
 
 export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
   return (
-    <div className="card card-side bg-base-100 rounded-sm">
-      <figure>
-        <img
-          src={`https://picsum.photos/200/300?random=${Math.random()}`}
+    <div className="grid grid-cols-12">
+      <Figure className="flex flex-1 px-16 col-span-5 col-start-2">
+        <Image
+          src={`https://picsum.photos/800/1200?random=${Math.random()}`}
           alt={book.title}
         />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">{book.title}</h2>
-        <div className="divider" />
-        <p>
+      </Figure>
+      <div className="flex flex-col flex-1 col-span-5">
+        <Card.Title size="large">{book.title}</Card.Title>
+        <Divider />
+        <BasicTypography>
           {'Authors: '}
-          {book.authors
-            .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
-            .join(', ')}
-        </p>
-        <p>
+          <BoldFragment>
+            {book.authors
+              .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
+              .join(', ')}
+          </BoldFragment>
+        </BasicTypography>
+        <BasicTypography>
           {'Categories: '}
-          {book.categories.map(({ name }) => name).join(', ')}
-        </p>
-        <p>
+          <BoldFragment>
+            {book.categories.map(({ name }) => name).join(', ')}
+          </BoldFragment>
+        </BasicTypography>
+        <BasicTypography>
+          {'Publication date: '}
+          <BoldFragment>{book.publicationDate}</BoldFragment>
+        </BasicTypography>
+        <BasicTypography>
           {'Publisher: '}
-          {book.publisher.name}
-        </p>
-        <p>{`${book.price} $`}</p>
+          <BoldFragment>{book.publisher.name}</BoldFragment>
+        </BasicTypography>
+        <Card.Actions>
+          <BoldLargeTypography>
+            {`Price: `}
+            <HighlightedTextFragment>
+              {`${book.price} $`}
+            </HighlightedTextFragment>
+          </BoldLargeTypography>
+          <PrimaryStretchedButton>Add to basket</PrimaryStretchedButton>
+        </Card.Actions>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const PageWrapper = ({ children, title }: PageWrapperProps) => {
         </header>
         <Navbar />
       </div>
-      <main className="min-h-[80vh] flex flex-col space-y-8 p-8">
+      <main className="min-h-[80vh] flex flex-col space-y-8 py-8 px-16">
         <h2 className="text-2xl">{title}</h2>
         <div className="">{children}</div>
       </main>

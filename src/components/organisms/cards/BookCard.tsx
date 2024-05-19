@@ -2,6 +2,7 @@ import { BookWithRelations } from '@/graphql/schemas/common';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';
+import { HighlightedTypography } from '@/components/atoms/Typography';
 
 interface CardProps {
   data: BookWithRelations;
@@ -28,7 +29,7 @@ export const BookCard = ({ data }: CardProps) => {
           <p>{categories.map(({ name }) => name).join(', ')}</p>
         </div>
         <div className="flex flex-col items-end">
-          <p className="text-3xl font-semibold text-primary">{`${price} $`}</p>
+          <HighlightedTypography>{`${price} $`}</HighlightedTypography>
           <div className="card-actions justify-end">
             <PrimaryButtonWithLink href={`/books/${id}`}>
               Details

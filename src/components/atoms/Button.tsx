@@ -21,3 +21,14 @@ export const PrimaryButton = ({
     </button>
   );
 };
+
+export const PrimaryStretchedButton = ({
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button className="btn btn-primary w-full" {...props}>
+      {children}
+    </button>
+  );
+};
