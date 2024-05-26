@@ -5,10 +5,10 @@ export const Navbar = () => {
     <nav className="navbar-end bg-base-100">
       <ul className="menu menu-horizontal px-1">
         <li>
-          <a>Register</a>
+          <a href="/register">Register</a>
         </li>
         <li>
-          <a>Login</a>
+          <a href="/login">Login</a>
         </li>
         {/* <li>
               <details>
