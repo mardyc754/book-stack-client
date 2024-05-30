@@ -7,9 +7,8 @@ export const LoginForm = () => {
   return (
     <Form>
       <Textfield
-        label="Email"
-        type="email"
-        placeholder="Email"
+        label="Username"
+        placeholder="Username"
         className="input input-bordered"
       />
       <Textfield
