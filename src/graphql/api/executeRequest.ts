@@ -1,21 +1,27 @@
-import { request } from 'graphql-request';
+import { GraphQLError } from 'graphql';
+import { GraphQLClient } from 'graphql-request';
 import type { ZodSchema } from 'zod';
 
 import { GraphQLErrorResponse } from '@/types/common';
+
+const graphQLClient = new GraphQLClient(
+  import.meta.env.VITE_GRAPHQL_ENDPOINT!,
+  {
+    credentials: 'include'
+    // mode: 'cors'
+    // redirect: 'follow'
+  }
+);
 
 export const executeRequest = async <T>(
   query: string,
   parser: ZodSchema<T>,
   variables?: Record<string, unknown>
 ) => {
-  const response = await request<T>(
-    import.meta.env.VITE_GRAPHQL_ENDPOINT!,
-    query,
-    variables
-  );
+  const response = await graphQLClient.request<T>(query, variables);
 
   if (response && response instanceof Object && 'errors' in response) {
-    throw new Error(
+    throw new GraphQLError(
       (response as GraphQLErrorResponse).errors
         .map((error) => error.message)
         .join('\n')

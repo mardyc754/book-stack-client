@@ -25,7 +25,7 @@ export const BookCardGrid = ({ data }: CardListProps) => {
   return (
     <div className="flex flex-col space-y-2">
       <Pagination {...paginationProps} />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m gap-3">
         {data.map((book) => (
           <BookCard key={book.id} data={book} />
         ))}
