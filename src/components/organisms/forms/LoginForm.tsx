@@ -1,15 +1,17 @@
-import { login } from '@/graphql/api/auth';
-import {
-  type LoginData,
-  type User,
-  loginFormResolver
-} from '@/graphql/schemas/forms/loginForm';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GraphQLError } from 'graphql';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { user } from '@/lib/tanstack-query/queryKeys';
+
+import { login } from '@/api/auth';
+
+import {
+  type LoginData,
+  LoginResponse,
+  loginFormResolver
+} from '@/schemas/auth';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { Form } from '@/components/atoms/forms/Form';
@@ -29,7 +31,7 @@ export const LoginForm = () => {
     resolver: loginFormResolver
   });
 
-  const mutation = useMutation<User, GraphQLError, LoginData>({
+  const mutation = useMutation<LoginResponse, GraphQLError, LoginData>({
     mutationFn: login,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: user.all });

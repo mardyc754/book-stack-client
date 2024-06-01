@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { bookWithDetailsSchema, bookWithRelationsSchema } from './common';
+import { bookWithDetailsSchema, bookWithRelationsSchema } from './books';
 
 export const allBooksSchema = z.object({
   allBooks: z.array(bookWithRelationsSchema)

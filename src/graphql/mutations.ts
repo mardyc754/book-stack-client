@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-export const login = gql`
+export const loginMutation = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       id
@@ -9,7 +9,7 @@ export const login = gql`
   }
 `;
 
-export const register = gql`
+export const registrationMutation = gql`
   mutation register($username: String!, $email: String!, $password: String!) {
     register(username: $username, email: $email, password: $password) {
       id

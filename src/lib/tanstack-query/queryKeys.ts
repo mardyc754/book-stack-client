@@ -1,4 +1,4 @@
-import { Book } from '@/graphql/schemas/common';
+import { Book } from '@/schemas/books';
 
 export const book = {
   all: ['book'] as const,

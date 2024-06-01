@@ -1,4 +1,4 @@
-import { BookWithRelations } from '@/graphql/schemas/common';
+import { BookWithRelations } from '@/schemas/books';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';

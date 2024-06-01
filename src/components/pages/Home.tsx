@@ -1,5 +1,6 @@
-import { getAllBooks } from '@/graphql/api/books';
 import { useQuery } from '@tanstack/react-query';
+
+import { getAllBooks } from '@/api/books';
 
 import { PageWrapper } from '@/components/templates/PageWrapper';
 

@@ -1,9 +1,11 @@
-import { getCurrentUser } from '@/graphql/api/auth';
-import type { User } from '@/graphql/schemas/auth';
 import { useQuery } from '@tanstack/react-query';
 import { createContext } from 'react';
 
 import { user } from '@/lib/tanstack-query/queryKeys';
+
+import { getCurrentUser } from '@/api/auth';
+
+import type { User } from '@/schemas/auth';
 
 type AuthContextType = {
   user: User | null;

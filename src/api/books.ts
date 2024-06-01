@@ -1,11 +1,13 @@
+import { ZodSchema } from 'zod';
+
 import { allBooks, bookById } from '@/graphql/queries';
+
 import {
   AllBooksQuery,
   BookByIdQuery,
   allBooksSchema,
   bookByIdSchema
-} from '@/graphql/schemas/queries';
-import { ZodSchema } from 'zod';
+} from '@/schemas/queries';
 
 import { executeRequest } from './executeRequest';
 

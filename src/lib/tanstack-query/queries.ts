@@ -1,6 +1,7 @@
-import { getCurrentUser } from '@/graphql/api/auth';
-import { getBookDetails } from '@/graphql/api/books';
-import type { BookWithDetails } from '@/graphql/schemas/common';
+import { getCurrentUser } from '@/api/auth';
+import { getBookDetails } from '@/api/books';
+
+import type { BookWithDetails } from '@/schemas/books';
 
 import { book, user } from './queryKeys';
 

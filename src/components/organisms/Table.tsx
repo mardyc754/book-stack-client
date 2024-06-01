@@ -1,4 +1,3 @@
-import { BookWithRelations } from '@/graphql/schemas/common';
 import {
   ColumnDef,
   flexRender,
@@ -7,6 +6,8 @@ import {
   useReactTable
 } from '@tanstack/react-table';
 import { useMemo } from 'react';
+
+import { BookWithRelations } from '@/schemas/books';
 
 import { Button } from '../atoms/Button';
 

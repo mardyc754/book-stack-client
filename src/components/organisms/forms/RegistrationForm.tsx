@@ -1,5 +1,14 @@
-import { registrationFormResolver } from '@/graphql/schemas/forms/registrationForm';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { signUp } from '@/api/auth';
+
+import {
+  RegistrationData,
+  RegistrationResponse,
+  registrationFormResolver
+} from '@/schemas/auth';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { Form } from '@/components/atoms/forms/Form';
@@ -10,20 +19,39 @@ export const RegistrationForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
-  } = useForm({
+    formState: { errors },
+    setError
+  } = useForm<RegistrationData>({
     resolver: registrationFormResolver
   });
+  const navigate = useNavigate();
 
-  const onSubmit = handleSubmit((data) => {});
+  const { mutate } = useMutation<RegistrationResponse, Error, RegistrationData>(
+    {
+      mutationFn: signUp,
+      onSuccess: () => {
+        navigate('/login');
+      },
+      onError: (error) => {
+        setError('username', { message: error.message });
+        return;
+      }
+    }
+  );
+
+  const onSubmit = handleSubmit((values, e) => {
+    e?.preventDefault();
+
+    mutate(values);
+  });
 
   return (
-    <Form>
+    <Form onSubmit={onSubmit}>
       <Textfield
         label="Username"
         placeholder="Username"
         className="input input-bordered"
-        errorLabel={errors.username?.message?.toString()}
+        errorLabel={errors.username?.message}
         {...register('username')}
       />
       <Textfield
@@ -31,7 +59,7 @@ export const RegistrationForm = () => {
         type="email"
         placeholder="Email"
         className="input input-bordered"
-        errorLabel={errors.email?.message?.toString()}
+        errorLabel={errors.email?.message}
         {...register('email')}
       />
       <Textfield
@@ -39,7 +67,7 @@ export const RegistrationForm = () => {
         type="password"
         placeholder="Password"
         className="input input-bordered"
-        errorLabel={errors.password?.message?.toString()}
+        errorLabel={errors.password?.message}
         {...register('password')}
       />
       <Textfield
@@ -47,11 +75,11 @@ export const RegistrationForm = () => {
         type="password"
         placeholder="Confirm Password"
         className="input input-bordered"
-        errorLabel={errors.confirmPassword?.message?.toString()}
+        errorLabel={errors.confirmPassword?.message}
         {...register('confirmPassword')}
       />
       <FormActions>
-        <PrimaryButton onClick={onSubmit}>Register</PrimaryButton>
+        <PrimaryButton type="submit">Register</PrimaryButton>
       </FormActions>
     </Form>
   );
