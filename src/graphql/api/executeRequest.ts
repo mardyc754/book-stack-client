@@ -7,9 +7,8 @@ import { GraphQLErrorResponse } from '@/types/common';
 const graphQLClient = new GraphQLClient(
   import.meta.env.VITE_GRAPHQL_ENDPOINT!,
   {
-    credentials: 'include'
-    // mode: 'cors'
-    // redirect: 'follow'
+    credentials: 'include',
+    mode: 'cors'
   }
 );
 

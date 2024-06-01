@@ -22,5 +22,3 @@ export const loginResponseSchema = z.object({
     username: z.string()
   })
 });
-
-export type User = z.infer<typeof loginResponseSchema>;

@@ -13,3 +13,12 @@ export const bookByIdSchema = z.object({
 });
 
 export type BookByIdQuery = z.infer<typeof bookByIdSchema>;
+
+export const currentUserSchema = z.object({
+  currentUser: z.object({
+    id: z.string(),
+    username: z.string()
+  })
+});
+
+export type CurrentUserQuery = z.infer<typeof currentUserSchema>;

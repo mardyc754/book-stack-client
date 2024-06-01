@@ -7,7 +7,10 @@ import {
   createBrowserRouter
 } from 'react-router-dom';
 
-import { bookDetailsQuery } from '@/lib/tanstack-query/queries';
+import {
+  bookDetailsQuery,
+  currentUserQuery
+} from '@/lib/tanstack-query/queries';
 
 import { Home } from '@/components/pages/Home';
 
@@ -16,6 +19,7 @@ import { Login } from './components/pages/Login';
 import { Register } from './components/pages/Register';
 import { UserOrders } from './components/pages/UserOrders';
 import './index.css';
+import { AuthProvider } from './providers/AuthProvider';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +34,14 @@ export const loader =
       queryClient.getQueryData(query.queryKey) ?? queryClient.fetchQuery(query)
     );
   };
+
+export const userLoader = (queryClient: QueryClient) => async () => {
+  const query = currentUserQuery();
+
+  return (
+    queryClient.getQueryData(query.queryKey) ?? queryClient.fetchQuery(query)
+  );
+};
 
 const router = createBrowserRouter([
   {
@@ -58,7 +70,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
