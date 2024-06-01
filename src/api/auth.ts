@@ -1,12 +1,19 @@
-import { loginMutation, registrationMutation } from '../graphql/mutations';
-import { currentUser as currentUserQuery } from '../graphql/queries';
+import {
+  loginMutation,
+  logoutMutation,
+  registrationMutation
+} from '@/graphql/mutations';
+import { currentUser as currentUserQuery } from '@/graphql/queries';
+
 import {
   LoginData,
   RegistrationData,
   loginResponseSchema,
+  logoutResponseSchema,
   registationResponseSchema
-} from '../schemas/auth';
-import { currentUserSchema } from '../schemas/queries';
+} from '@/schemas/auth';
+import { currentUserSchema } from '@/schemas/queries';
+
 import { executeRequest } from './executeRequest';
 
 export const login = async ({ username, password }: LoginData) => {
@@ -30,5 +37,8 @@ export const signUp = async ({
     email,
     password
   });
-  // Implement register function here
+};
+
+export const logout = async () => {
+  return await executeRequest(logoutMutation, logoutResponseSchema);
 };

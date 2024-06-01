@@ -8,11 +8,11 @@ import { getCurrentUser } from '@/api/auth';
 import type { User } from '@/schemas/auth';
 
 type AuthContextType = {
-  user: User | null;
+  currentUser: User | null;
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  user: null as User | null
+  currentUser: null as User | null
 });
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   });
 
   return (
-    <AuthContext.Provider value={{ user: data?.currentUser ?? null }}>
+    <AuthContext.Provider value={{ currentUser: data?.currentUser ?? null }}>
       {children}
     </AuthContext.Provider>
   );

@@ -65,3 +65,9 @@ export const registationResponseSchema = z.object({
 });
 
 export type RegistrationResponse = z.infer<typeof registationResponseSchema>;
+
+export const logoutResponseSchema = z.object({
+  logout: z.boolean()
+});
+
+export type LogoutResponse = z.infer<typeof logoutResponseSchema>;
