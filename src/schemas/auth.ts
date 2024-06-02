@@ -1,9 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+export const roleSchema = z.enum(['USER', 'ADMIN']);
+
+export type UserRole = z.infer<typeof roleSchema>;
+
 export const userSchema = z.object({
   id: z.string(),
-  username: z.string()
+  username: z.string(),
+  role: roleSchema
 });
 
 export type User = z.infer<typeof userSchema>;
@@ -26,7 +31,8 @@ export const loginFormResolver = zodResolver(loginFormSchema);
 export const loginResponseSchema = z.object({
   login: z.object({
     id: z.string(),
-    username: z.string()
+    username: z.string(),
+    role: roleSchema
   })
 });
 
@@ -60,7 +66,8 @@ export const registrationFormResolver = zodResolver(registrationFormSchema);
 export const registationResponseSchema = z.object({
   register: z.object({
     id: z.string(),
-    username: z.string()
+    username: z.string(),
+    role: roleSchema
   })
 });
 
@@ -71,3 +78,13 @@ export const logoutResponseSchema = z.object({
 });
 
 export type LogoutResponse = z.infer<typeof logoutResponseSchema>;
+
+export const currentUserSchema = z.object({
+  currentUser: z.object({
+    id: z.string(),
+    username: z.string(),
+    role: roleSchema
+  })
+});
+
+export type CurrentUserQuery = z.infer<typeof currentUserSchema>;

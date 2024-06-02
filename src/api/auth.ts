@@ -8,11 +8,11 @@ import { currentUser as currentUserQuery } from '@/graphql/queries';
 import {
   LoginData,
   RegistrationData,
+  currentUserSchema,
   loginResponseSchema,
   logoutResponseSchema,
   registationResponseSchema
 } from '@/schemas/auth';
-import { currentUserSchema } from '@/schemas/queries';
 
 import { executeRequest } from './executeRequest';
 

@@ -47,6 +47,7 @@ export const currentUser = gql`
     currentUser {
       id
       username
+      role
     }
   }
 `;
