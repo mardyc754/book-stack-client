@@ -9,12 +9,14 @@ import {
 
 import { bookDetailsQuery } from '@/lib/tanstack-query/queries';
 
-import { Home } from '@/components/pages/Home';
+import { AuthProvider } from '@/providers/AuthProvider';
 
-import { BookDetails } from './components/pages/BookDetails';
-import { Login } from './components/pages/Login';
-import { Register } from './components/pages/Register';
-import { UserOrders } from './components/pages/UserOrders';
+import { BookDetails } from '@/components/pages/BookDetails';
+import { Home } from '@/components/pages/Home';
+import { Login } from '@/components/pages/Login';
+import { Register } from '@/components/pages/Register';
+import { UserOrders } from '@/components/pages/UserOrders';
+
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -58,7 +60,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router}></RouterProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

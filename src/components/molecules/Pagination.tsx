@@ -15,11 +15,10 @@ export const Pagination = ({
 }: PaginationProps) => {
   return (
     <ReactPaginate
-      pageCount={totalPages}
-      forcePage={currentPage}
+      pageCount={Math.ceil(totalPages)}
+      forcePage={currentPage - 1}
       pageRangeDisplayed={2}
       marginPagesDisplayed={1}
-      initialPage={currentPage}
       onPageChange={({ selected }) => onPageChange(selected)}
       containerClassName={clsx('join', containerClassName)}
       pageLinkClassName="join-item btn"

@@ -3,7 +3,7 @@ import React from 'react';
 export const Button = ({
   children,
   ...props
-}: React.HTMLAttributes<HTMLButtonElement>) => {
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button className="btn" {...props}>
       {children}
@@ -14,7 +14,7 @@ export const Button = ({
 export const PrimaryButton = ({
   children,
   ...props
-}: React.HTMLAttributes<HTMLButtonElement>) => {
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button className="btn btn-primary" {...props}>
       {children}
@@ -25,7 +25,7 @@ export const PrimaryButton = ({
 export const PrimaryStretchedButton = ({
   children,
   ...props
-}: React.HTMLAttributes<HTMLButtonElement>) => {
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
     <button className="btn btn-primary w-full" {...props}>
       {children}

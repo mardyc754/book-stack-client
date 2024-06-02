@@ -41,3 +41,13 @@ export const bookById = gql`
     }
   }
 `;
+
+export const currentUser = gql`
+  {
+    currentUser {
+      id
+      username
+      role
+    }
+  }
+`;

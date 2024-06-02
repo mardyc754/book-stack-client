@@ -1,7 +1,7 @@
-import { getAllBooks } from '@/graphql/api/books';
 import { useQuery } from '@tanstack/react-query';
 
-import { Table } from '@/components/organisms/Table';
+import { getAllBooks } from '@/api/books';
+
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
 import { LoadingSpinner } from '../atoms/LoadingSpinner';

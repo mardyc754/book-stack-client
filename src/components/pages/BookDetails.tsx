@@ -1,4 +1,3 @@
-import { BookWithDetails } from '@/graphql/schemas/common';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
@@ -11,8 +10,6 @@ import { PageWrapper } from '../templates/PageWrapper';
 
 export const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  console.log('bookId', bookId);
-
   const { data: book, isLoading } = useQuery(
     bookDetailsQuery(bookId as string)
   );

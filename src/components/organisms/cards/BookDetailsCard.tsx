@@ -1,4 +1,4 @@
-import { BookWithDetails } from '@/graphql/schemas/common';
+import { BookWithDetails } from '@/schemas/books';
 
 import {
   Button,

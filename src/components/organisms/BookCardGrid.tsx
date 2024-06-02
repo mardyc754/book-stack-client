@@ -1,5 +1,6 @@
-import { BookWithRelations } from '@/graphql/schemas/common';
 import { useMemo, useState } from 'react';
+
+import { BookWithRelations } from '@/schemas/books';
 
 import { BookCard } from '@/components/organisms/cards/BookCard';
 
@@ -21,11 +22,10 @@ export const BookCardGrid = ({ data }: CardListProps) => {
     };
   }, [currentPage, data]);
 
-  console.log('currentPage', currentPage);
   return (
     <div className="flex flex-col space-y-2">
       <Pagination {...paginationProps} />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m gap-3">
         {data.map((book) => (
           <BookCard key={book.id} data={book} />
         ))}
