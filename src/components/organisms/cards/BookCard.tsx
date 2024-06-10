@@ -9,15 +9,12 @@ interface CardProps {
 }
 
 export const BookCard = ({ data }: CardProps) => {
-  const { id, authors, categories, price, title } = data;
+  const { id, authors, categories, price, title, imageUrlM } = data;
   return (
     <div className="card card-normal bg-base-100 rounded-xl shadow-xl">
       <div className="p-4">
         <figure>
-          <img
-            src={`https://picsum.photos/200/300?random=${Math.random()}`}
-            alt={title}
-          />
+          <img src={imageUrlM} alt={title} />
         </figure>
       </div>
       <div className="card-body justify-between">

@@ -16,7 +16,10 @@ export const publisherSchema = z.object({
 export const bookSchema = z.object({
   id: z.string(),
   title: z.string(),
-  price: z.number().transform((value) => Number(value).toFixed(2))
+  price: z.number().transform((value) => Number(value).toFixed(2)),
+  imageUrlS: z.string(),
+  imageUrlM: z.string(),
+  imageUrlL: z.string()
 });
 
 export const bookWithRelationsSchema = bookSchema.extend({
@@ -25,7 +28,7 @@ export const bookWithRelationsSchema = bookSchema.extend({
 });
 
 export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
-  description: z.string(),
+  description: z.string().optional(),
   ISBN: z.string(),
   pageCount: z.number().int(),
   publicationDate: z

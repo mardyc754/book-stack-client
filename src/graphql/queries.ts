@@ -14,6 +14,9 @@ export const allBooks = gql`
       ISBN
       title
       price
+      imageUrlS
+      imageUrlM
+      imageUrlL
     }
   }
 `;
@@ -38,6 +41,9 @@ export const bookById = gql`
       publisher {
         name
       }
+      imageUrlS
+      imageUrlM
+      imageUrlL
     }
   }
 `;
