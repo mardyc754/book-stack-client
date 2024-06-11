@@ -1,13 +1,52 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { ShoppingCart } from 'lucide-react';
+import { forwardRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { user } from '@/lib/tanstack-query/queryKeys';
+import { cn } from '@/lib/utils';
 
 import { logout } from '@/api/auth';
 
 import { useAuthContext } from '@/hooks/useAuthContext';
 
-import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle
+} from '@/components/ui/navigation-menu';
+
+import { BasketDropdownView } from './BasketDropdownView';
+
+const ListItem = forwardRef<
+  React.ElementRef<'a'>,
+  React.ComponentPropsWithoutRef<'a'>
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = 'ListItem';
 
 export const Navbar = () => {
   const { currentUser } = useAuthContext();
@@ -24,40 +63,46 @@ export const Navbar = () => {
   });
 
   return (
-    <nav className="navbar-end bg-base-100">
-      <ul className="menu menu-horizontal px-1">
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>
+            <ShoppingCart />
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <p>No items in basket :(</p>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
         {currentUser ? (
-          <li>
-            <details>
-              <summary>{currentUser.username}</summary>
-              <ul className="p-2 w-32 bg-base-100 rounded-t-none">
-                <li>
-                  <Link to="/your-orders">Your profile</Link>
-                </li>
-                <li>
-                  <span
-                    onClick={() => {
-                      mutateOnLogout();
-                    }}
-                  >
-                    Logout
-                  </span>
-                </li>
-              </ul>
-            </details>
-          </li>
+          <>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                onClick={() => {
+                  mutateOnLogout();
+                }}
+              >
+                Logout
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </>
         ) : (
           <>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
+            <NavigationMenuItem>
+              <Link to="/login" className={navigationMenuTriggerStyle()}>
+                Login
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/register" className={navigationMenuTriggerStyle()}>
+                {/* <NavigationMenuLink className={navigationMenuTriggerStyle()}> */}
+                Register
+                {/* </NavigationMenuLink> */}
+              </Link>
+            </NavigationMenuItem>
           </>
         )}
-      </ul>
-      <ThemeSwitcher />
-    </nav>
+      </NavigationMenuList>
+    </NavigationMenu>
   );
 };

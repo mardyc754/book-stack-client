@@ -1,3 +1,5 @@
+import { cn } from '@/lib/tailwind/cn';
+
 export const BasicTypography = ({ children }: React.PropsWithChildren) => {
   return <p className="text-base">{children}</p>;
 };
@@ -35,7 +37,12 @@ export const CardTitleTypography = ({ children }: React.PropsWithChildren) => {
 };
 
 export const HighlightedTypography = ({
-  children
-}: React.PropsWithChildren) => {
-  return <p className="text-3xl font-semibold text-primary">{children}</p>;
+  children,
+  fontSize = 'text-3xl'
+}: React.PropsWithChildren & { fontSize?: string }) => {
+  return (
+    <p className={cn('text-3xl font-semibold text-primary', fontSize)}>
+      {children}
+    </p>
+  );
 };
