@@ -19,7 +19,8 @@ export const bookSchema = z.object({
   price: z.number().transform((value) => Number(value).toFixed(2)),
   imageUrlS: z.string(),
   imageUrlM: z.string(),
-  imageUrlL: z.string()
+  imageUrlL: z.string(),
+  quantity: z.number().int()
 });
 
 export const bookWithRelationsSchema = bookSchema.extend({

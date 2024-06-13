@@ -10,7 +10,7 @@ import { BookCardGrid } from '../organisms/BookCardGrid';
 export const Home = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['books'],
-    queryFn: getAllBooks
+    queryFn: () => getAllBooks(0)
   });
 
   return (

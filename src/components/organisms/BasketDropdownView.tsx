@@ -1,9 +1,5 @@
 import { BookWithRelations } from '@/schemas/books';
 
-import { PrimaryButton } from '@/components/atoms/Button';
-import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';
-import { HighlightedTypography } from '@/components/atoms/Typography';
-
 import { BookBasketCard } from './cards/BookBasketCard';
 
 interface CardProps {

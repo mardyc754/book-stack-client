@@ -19,7 +19,7 @@ export const BookDetails = () => {
       {isLoading && <LoadingSpinner />}
       {book && (
         <div className="flex flex-col space-y-8">
-          <BookDetailsCard book={book?.bookById} />
+          <BookDetailsCard data={book?.bookById} />
           <SectionBase title="Description">
             <p>{book?.bookById.description}</p>
           </SectionBase>

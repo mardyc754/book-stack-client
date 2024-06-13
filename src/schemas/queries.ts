@@ -13,3 +13,7 @@ export const bookByIdSchema = z.object({
 });
 
 export type BookByIdQuery = z.infer<typeof bookByIdSchema>;
+
+export const addBookToCartSchema = z.object({
+  addBookToCart: bookWithDetailsSchema.pick({ id: true, quantity: true })
+});

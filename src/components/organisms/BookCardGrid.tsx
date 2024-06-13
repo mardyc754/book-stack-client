@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 
 import { BookWithRelations } from '@/schemas/books';
 
+import { useAuthContext } from '@/hooks/useAuthContext';
+
 import { BookCard } from '@/components/organisms/cards/BookCard';
 
 import { Pagination } from '../molecules/Pagination';
@@ -12,6 +14,7 @@ interface CardListProps {
 
 export const BookCardGrid = ({ data }: CardListProps) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const { currentUser } = useAuthContext();
 
   const paginationProps = useMemo(() => {
     return {
@@ -27,7 +30,7 @@ export const BookCardGrid = ({ data }: CardListProps) => {
       <Pagination {...paginationProps} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m gap-3">
         {data.map((book) => (
-          <BookCard key={book.id} data={book} />
+          <BookCard key={book.id} data={book} showAddToBasket={!!currentUser} />
         ))}
       </div>
       <Pagination {...paginationProps} />

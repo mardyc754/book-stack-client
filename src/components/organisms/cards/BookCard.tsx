@@ -14,39 +14,13 @@ import {
 
 interface CardProps {
   data: BookWithRelations;
+  showAddToBasket?: boolean;
 }
 
-export const BookCard = ({ data }: CardProps) => {
+export const BookCard = ({ data, showAddToBasket }: CardProps) => {
   const { id, authors, categories, price, title, imageUrlM } = data;
   return (
-    // <div className="card card-normal bg-base-100 rounded-xl shadow-xl">
-    //   <div className="p-4">
-    //     <figure>
-    //       <img src={imageUrlM} alt={title} />
-    //     </figure>
-    //   </div>
-    //   <div className="card-body justify-between">
-    //     <div className="flex flex-col">
-    //       <h2 className="card-title">{title}</h2>
-    //       <p>
-    //         {authors
-    //           .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
-    //           .join(', ')}
-    //       </p>
-    //       <p>{categories.map(({ name }) => name).join(', ')}</p>
-    //     </div>
-    //     <div className="flex flex-col items-end space-y-2">
-    //       <HighlightedTypography>{`${price} $`}</HighlightedTypography>
-    //       <div className="card-actions justify-end">
-    //         <PrimaryButtonWithLink href={`/books/${id}`}>
-    //           Details
-    //         </PrimaryButtonWithLink>
-    //         <PrimaryButton>Add to basket</PrimaryButton>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-    <Card className="h-full">
+    <Card className="h-full flex flex-col">
       <div className="p-4 flex items-center justify-center">
         <figure>
           <img src={imageUrlM} alt={title} />
@@ -69,7 +43,7 @@ export const BookCard = ({ data }: CardProps) => {
           <PrimaryButtonWithLink href={`/books/${id}`}>
             Details
           </PrimaryButtonWithLink>
-          <PrimaryButton>Add to basket</PrimaryButton>
+          {showAddToBasket && <PrimaryButton>Add to basket</PrimaryButton>}
         </div>
       </CardFooter>
     </Card>

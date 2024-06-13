@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 export const allBooks = gql`
-  {
-    allBooks {
+  query allBooks($minQuantity: Int) {
+    allBooks(minQuantity: $minQuantity) {
       id
       authors {
         firstName
@@ -17,6 +17,7 @@ export const allBooks = gql`
       imageUrlS
       imageUrlM
       imageUrlL
+      quantity
     }
   }
 `;
@@ -44,6 +45,7 @@ export const bookById = gql`
       imageUrlS
       imageUrlM
       imageUrlL
+      quantity
     }
   }
 `;

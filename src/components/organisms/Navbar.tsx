@@ -20,6 +20,7 @@ import {
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 
+import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
 import { BasketDropdownView } from './BasketDropdownView';
 
 const ListItem = forwardRef<
@@ -65,16 +66,15 @@ export const Navbar = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>
-            <ShoppingCart />
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <p>No items in basket :(</p>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
         {currentUser ? (
           <>
+            <NavigationMenuItem>
+              <Link to="/basket" className={navigationMenuTriggerStyle()}>
+                <div className="flex space-x-2 items-center">
+                  <ShoppingCart /> <span>Basket</span>
+                </div>
+              </Link>
+            </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink
                 className={navigationMenuTriggerStyle()}
@@ -102,6 +102,7 @@ export const Navbar = () => {
             </NavigationMenuItem>
           </>
         )}
+        <ThemeSwitcher />
       </NavigationMenuList>
     </NavigationMenu>
   );

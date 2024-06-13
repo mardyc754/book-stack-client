@@ -25,3 +25,13 @@ export const logoutMutation = gql`
     logout
   }
 `;
+
+export const addBookToCartMutation = gql`
+  mutation addBookToCart($bookId: ID!, $quantity: Int = 1) {
+    addBookToCart(bookId: $bookId, quantity: $quantity) {
+      id
+      title
+      quantity
+    }
+  }
+`;

@@ -1,3 +1,9 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { book } from '@/lib/tanstack-query/queryKeys';
+
+import { addBookToCart } from '@/api/books';
+
 import { BookWithDetails } from '@/schemas/books';
 
 import { PrimaryStretchedButton } from '@/components/atoms/Button';
@@ -13,12 +19,32 @@ import {
   BoldLargeTypography
 } from '@/components/atoms/Typography';
 import { CardTitle } from '@/components/atoms/card/CardTitle';
+import { useToast } from '@/components/ui/use-toast';
 
 type BookDetailsCardProps = {
-  book: BookWithDetails;
+  data: BookWithDetails;
+  addToBasketDisabled?: boolean;
 };
 
-export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
+export const BookDetailsCard = ({
+  data,
+  addToBasketDisabled
+}: BookDetailsCardProps) => {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => addBookToCart(data.id, 1),
+    onSuccess: () => {
+      toast({ title: 'Book added to basket', duration: 2000 });
+      queryClient.invalidateQueries({ queryKey: book.byId(data.id) });
+      // window.location.reload();\
+    },
+    onError: () => {
+      toast({ title: 'Error when adding book to the basket' });
+    }
+  });
+
+  const { toast } = useToast();
   const {
     title,
     authors,
@@ -26,8 +52,9 @@ export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
     categories,
     publicationDate,
     price,
-    publisher
-  } = book;
+    publisher,
+    quantity
+  } = data;
   return (
     <div className="grid grid-cols-12">
       <Figure className="flex flex-1 px-16 col-span-5 col-start-2">
@@ -59,11 +86,19 @@ export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
           <BoldFragment>{publisher.name}</BoldFragment>
         </BasicTypography>
         <div className="flex flex-col justify-end items-end space-y-2 flex-1">
+          <BoldLargeTypography>Quantity: {quantity}</BoldLargeTypography>
           <BoldLargeTypography>
             {`Price: `}
             <HighlightedTextFragment>{`${price} $`}</HighlightedTextFragment>
           </BoldLargeTypography>
-          <PrimaryStretchedButton>Add to basket</PrimaryStretchedButton>
+          <PrimaryStretchedButton
+            disabled={addToBasketDisabled}
+            onClick={() => {
+              mutate();
+            }}
+          >
+            Add to basket
+          </PrimaryStretchedButton>
         </div>
       </div>
     </div>
