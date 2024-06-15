@@ -10,15 +10,17 @@ import type { User } from '@/schemas/auth';
 type AuthContextType = {
   currentUser: User | null;
   isAuthenticated: boolean;
+  isLoading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   currentUser: null as User | null,
-  isAuthenticated: false
+  isAuthenticated: false,
+  isLoading: true
 });
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: user.current,
     queryFn: async () => await getCurrentUser()
   });
@@ -27,7 +29,8 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
     <AuthContext.Provider
       value={{
         currentUser: data?.currentUser ?? null,
-        isAuthenticated: !!data?.currentUser
+        isAuthenticated: !!data?.currentUser,
+        isLoading
       }}
     >
       {children}

@@ -3,11 +3,11 @@ import { ZodSchema } from 'zod';
 import { addBookToCartMutation } from '@/graphql/mutations';
 import { allBooks, bookById } from '@/graphql/queries';
 
+import { addBookToCartSchema } from '@/schemas/mutations';
+import { AddBookToCartMutation } from '@/schemas/mutations';
 import {
-  AddBookToCartMutation,
   AllBooksQuery,
   BookByIdQuery,
-  addBookToCartSchema,
   allBooksSchema,
   bookByIdSchema
 } from '@/schemas/queries';

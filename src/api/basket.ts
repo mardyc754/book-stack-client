@@ -1,12 +1,15 @@
 import { ZodSchema } from 'zod';
 
-import { addBookToCartMutation } from '@/graphql/mutations';
-import { allBooks, bookById } from '@/graphql/queries';
+import { basketByUserId } from '@/graphql/queries';
 
-import {
-  AllBooksQuery,
-  BookByIdQuery,
-  addBookToCartSchema,
-  allBooksSchema,
-  bookByIdSchema
-} from '@/schemas/queries';
+import { BasketByUserIdQuery, basketByUserIdSchema } from '@/schemas/queries';
+
+import { executeRequest } from './executeRequest';
+
+export const getUserBasket = async (userId: string) => {
+  return await executeRequest(
+    basketByUserId,
+    basketByUserIdSchema as unknown as ZodSchema<BasketByUserIdQuery>,
+    { userId }
+  );
+};

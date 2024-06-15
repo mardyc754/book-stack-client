@@ -1,11 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-
 import { book } from '@/lib/tanstack-query/queryKeys';
-
-import { addBookToCart } from '@/api/books';
 
 import { BookWithDetails } from '@/schemas/books';
 
+import { useAddBookToBasket } from '@/hooks/useAddBookToBasket';
 import { useAuthContext } from '@/hooks/useAuthContext';
 
 import { PrimaryStretchedButton } from '@/components/atoms/Button';
@@ -21,7 +18,6 @@ import {
   BoldLargeTypography
 } from '@/components/atoms/Typography';
 import { CardTitle } from '@/components/atoms/card/CardTitle';
-import { useToast } from '@/components/ui/use-toast';
 
 type BookDetailsCardProps = {
   data: BookWithDetails;
@@ -32,24 +28,14 @@ export const BookDetailsCard = ({
   data,
   addToBasketDisabled
 }: BookDetailsCardProps) => {
-  const queryClient = useQueryClient();
   const { currentUser } = useAuthContext();
 
-  const { mutate } = useMutation({
-    mutationFn: () => addBookToCart(data.id, currentUser?.id, 1),
-    onSuccess: () => {
-      toast({ title: 'Book added to basket' });
-      queryClient.invalidateQueries({ queryKey: book.byId(data.id) });
-      // window.location.reload();\
-    },
-    onError: () => {
-      toast({
-        title: 'Error when adding book to the basket'
-      });
-    }
+  const { mutate } = useAddBookToBasket({
+    bookId: data.id,
+    userId: currentUser?.id || '',
+    invalidateOnSuccessQueryKey: book.byId(data.id)
   });
 
-  const { toast } = useToast();
   const {
     title,
     authors,

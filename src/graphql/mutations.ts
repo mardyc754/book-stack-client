@@ -38,6 +38,11 @@ export const addBookToCartMutation = gql`
           id
           title
           price
+          imageUrlM
+          authors {
+            firstName
+            lastName
+          }
         }
         quantity
       }

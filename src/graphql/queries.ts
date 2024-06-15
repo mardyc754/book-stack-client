@@ -72,6 +72,11 @@ export const basketByUserId = gql`
           id
           title
           price
+          imageUrlM
+          authors {
+            firstName
+            lastName
+          }
         }
         quantity
       }

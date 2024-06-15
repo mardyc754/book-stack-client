@@ -1,34 +1,38 @@
 import { BookWithRelations } from '@/schemas/books';
 
-import { PrimaryButton } from '@/components/atoms/Button';
-import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';
 import { HighlightedTypography } from '@/components/atoms/Typography';
+import { CardBody } from '@/components/atoms/card/CardBody';
+import { Card, CardTitle } from '@/components/ui/card';
 
 interface CardProps {
-  data: BookWithRelations;
+  bookData: Pick<
+    BookWithRelations,
+    'id' | 'price' | 'title' | 'imageUrlM' | 'authors'
+  >;
+  quantity: number;
 }
 
-export const BookBasketCard = ({ data }: CardProps) => {
-  const { id, authors, categories, price, title, imageUrlS } = data;
+export const BookBasketCard = ({ bookData, quantity }: CardProps) => {
+  const { authors, price, title, imageUrlM } = bookData;
   return (
-    <div className="card card-side bg-base-100 border-b-2">
+    <Card className="flex">
       <div className="p-4">
         <figure>
-          <img src={imageUrlS} alt={title} />
+          <img src={imageUrlM} alt={title} />
         </figure>
       </div>
-      <div className="card-body justify-between">
-        <div className="flex flex-col  justify-center">
-          <h2 className="card-title">{title}</h2>
+      <CardBody>
+        <div className="flex flex-col justify-center">
+          <CardTitle>{title}</CardTitle>
           <p>
             {authors
               .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
               .join(', ')}
           </p>
-          <p>{categories.map(({ name }) => name).join(', ')}</p>
           <HighlightedTypography fontSize="text-xl">{`${price} $`}</HighlightedTypography>
         </div>
-      </div>
-    </div>
+        <div className="flex self-end">In basket: {quantity}</div>
+      </CardBody>
+    </Card>
   );
 };
