@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { addBookToCart } from '@/api/basket';
+import { changeBookQuantityInCart } from '@/api/basket';
 
 import { User } from '@/schemas/auth';
 import { Book } from '@/schemas/books';
@@ -10,27 +10,27 @@ import { useToast } from '@/components/ui/use-toast';
 type BookDetailsCardProps = {
   bookId: Book['id'];
   userId: User['id'];
+  quantity: Book['quantity'];
   invalidateOnSuccessQueryKey: readonly string[];
 };
 
-export const useAddBookToBasket = ({
+export const useChangeBookQuantityInBasket = ({
   bookId,
   userId,
+  quantity,
   invalidateOnSuccessQueryKey
 }: BookDetailsCardProps) => {
   const { toast } = useToast();
-
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => addBookToCart(bookId, userId, 1),
+    mutationFn: () => changeBookQuantityInCart(bookId, userId, quantity),
     onSuccess: () => {
-      toast({ title: 'Book added to basket' });
       queryClient.invalidateQueries({ queryKey: invalidateOnSuccessQueryKey });
     },
     onError: () => {
       toast({
-        title: 'Error when adding book to the basket'
+        title: 'Error when changing book quantity in the basket'
       });
     }
   });

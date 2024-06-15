@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { addBookToCart } from '@/api/basket';
+import { removeBookFromCart } from '@/api/basket';
 
 import { User } from '@/schemas/auth';
 import { Book } from '@/schemas/books';
@@ -13,7 +13,7 @@ type BookDetailsCardProps = {
   invalidateOnSuccessQueryKey: readonly string[];
 };
 
-export const useAddBookToBasket = ({
+export const useRemoveBookFromCart = ({
   bookId,
   userId,
   invalidateOnSuccessQueryKey
@@ -23,14 +23,14 @@ export const useAddBookToBasket = ({
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => addBookToCart(bookId, userId, 1),
+    mutationFn: () => removeBookFromCart(bookId, userId),
     onSuccess: () => {
-      toast({ title: 'Book added to basket' });
+      toast({ title: 'Book removed from basket' });
       queryClient.invalidateQueries({ queryKey: invalidateOnSuccessQueryKey });
     },
     onError: () => {
       toast({
-        title: 'Error when adding book to the basket'
+        title: 'Error when removing book from the basket'
       });
     }
   });

@@ -7,6 +7,11 @@ import { getUserBasket } from '@/api/basket';
 import { PrimaryButton } from '@/components/atoms/Button';
 import { BookBasketCard } from '@/components/organisms/cards/BookBasketCard';
 
+import {
+  BoldLargeTypography,
+  HighlightedTypography
+} from '../atoms/Typography';
+
 type BasketBooksListProps = {
   userId: string;
 };
@@ -24,7 +29,17 @@ export const BasketBooksList = ({ userId }: BasketBooksListProps) => {
           <BookBasketCard key={book.id} bookData={book} quantity={quantity} />
         ))}
       </div>
-      <div className="flex justify-end p-4 space-y-6">
+      <div className="flex items-baseline justify-end p-4 space-x-8 space-y-6">
+        <div className="flex items-center space-x-2">
+          <BoldLargeTypography>Total:</BoldLargeTypography>
+          <HighlightedTypography>
+            {`${data?.basketByUserId.books
+              .reduce((acc, { book, quantity }) => {
+                return acc + quantity * Number(book.price);
+              }, 0)
+              .toFixed(2)} $`}
+          </HighlightedTypography>
+        </div>
         <PrimaryButton>Buy</PrimaryButton>
       </div>
     </>

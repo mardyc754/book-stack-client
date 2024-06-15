@@ -49,3 +49,59 @@ export const addBookToCartMutation = gql`
     }
   }
 `;
+
+export const changeBookQuantityInCartMutation = gql`
+  mutation changeBookQuantityInCart(
+    $bookId: ID!
+    $userId: ID!
+    $quantity: Int = 1
+  ) {
+    changeBookQuantityInCart(
+      bookId: $bookId
+      userId: $userId
+      quantity: $quantity
+    ) {
+      id
+      user {
+        id
+      }
+      books {
+        book {
+          id
+          title
+          price
+          imageUrlM
+          authors {
+            firstName
+            lastName
+          }
+        }
+        quantity
+      }
+    }
+  }
+`;
+
+export const removeBookFromCartMutation = gql`
+  mutation removeBookFromCart($bookId: ID!, $userId: ID!) {
+    removeBookFromCart(bookId: $bookId, userId: $userId) {
+      id
+      user {
+        id
+      }
+      books {
+        book {
+          id
+          title
+          price
+          imageUrlM
+          authors {
+            firstName
+            lastName
+          }
+        }
+        quantity
+      }
+    }
+  }
+`;
