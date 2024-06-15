@@ -4,6 +4,7 @@ import { addBookToCartMutation } from '@/graphql/mutations';
 import { allBooks, bookById } from '@/graphql/queries';
 
 import {
+  AddBookToCartMutation,
   AllBooksQuery,
   BookByIdQuery,
   addBookToCartSchema,
@@ -29,9 +30,18 @@ export const getBookDetails = async (id: string) => {
   );
 };
 
-export const addBookToCart = async (bookId: string, quantity = 1) => {
-  return await executeRequest(addBookToCartMutation, addBookToCartSchema, {
-    bookId,
-    quantity
-  });
+export const addBookToCart = async (
+  bookId: string,
+  userId: string,
+  quantity = 1
+) => {
+  return await executeRequest(
+    addBookToCartMutation,
+    addBookToCartSchema as unknown as ZodSchema<AddBookToCartMutation>,
+    {
+      bookId,
+      userId,
+      quantity
+    }
+  );
 };

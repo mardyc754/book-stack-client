@@ -9,10 +9,12 @@ import type { User } from '@/schemas/auth';
 
 type AuthContextType = {
   currentUser: User | null;
+  isAuthenticated: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType>({
-  currentUser: null as User | null
+  currentUser: null as User | null,
+  isAuthenticated: false
 });
 
 export const AuthProvider = ({ children }: React.PropsWithChildren) => {
@@ -22,7 +24,12 @@ export const AuthProvider = ({ children }: React.PropsWithChildren) => {
   });
 
   return (
-    <AuthContext.Provider value={{ currentUser: data?.currentUser ?? null }}>
+    <AuthContext.Provider
+      value={{
+        currentUser: data?.currentUser ?? null,
+        isAuthenticated: !!data?.currentUser
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

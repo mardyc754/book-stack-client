@@ -27,11 +27,20 @@ export const logoutMutation = gql`
 `;
 
 export const addBookToCartMutation = gql`
-  mutation addBookToCart($bookId: ID!, $quantity: Int = 1) {
-    addBookToCart(bookId: $bookId, quantity: $quantity) {
+  mutation addBookToCart($bookId: ID!, $userId: ID!, $quantity: Int = 1) {
+    addBookToCart(bookId: $bookId, userId: $userId, quantity: $quantity) {
       id
-      title
-      quantity
+      user {
+        id
+      }
+      books {
+        book {
+          id
+          title
+          price
+        }
+        quantity
+      }
     }
   }
 `;

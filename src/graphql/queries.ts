@@ -59,3 +59,22 @@ export const currentUser = gql`
     }
   }
 `;
+
+export const basketByUserId = gql`
+  query basketByUserId($userId: ID!) {
+    basketByUserId(userId: $userId) {
+      id
+      user {
+        id
+      }
+      books {
+        book {
+          id
+          title
+          price
+        }
+        quantity
+      }
+    }
+  }
+`;

@@ -6,6 +6,8 @@ import { addBookToCart } from '@/api/books';
 
 import { BookWithDetails } from '@/schemas/books';
 
+import { useAuthContext } from '@/hooks/useAuthContext';
+
 import { PrimaryStretchedButton } from '@/components/atoms/Button';
 import { Divider } from '@/components/atoms/Divider';
 import { Figure } from '@/components/atoms/Figure';
@@ -31,16 +33,19 @@ export const BookDetailsCard = ({
   addToBasketDisabled
 }: BookDetailsCardProps) => {
   const queryClient = useQueryClient();
+  const { currentUser } = useAuthContext();
 
   const { mutate } = useMutation({
-    mutationFn: () => addBookToCart(data.id, 1),
+    mutationFn: () => addBookToCart(data.id, currentUser?.id, 1),
     onSuccess: () => {
-      toast({ title: 'Book added to basket', duration: 2000 });
+      toast({ title: 'Book added to basket' });
       queryClient.invalidateQueries({ queryKey: book.byId(data.id) });
       // window.location.reload();\
     },
     onError: () => {
-      toast({ title: 'Error when adding book to the basket' });
+      toast({
+        title: 'Error when adding book to the basket'
+      });
     }
   });
 
@@ -97,7 +102,9 @@ export const BookDetailsCard = ({
               mutate();
             }}
           >
-            Add to basket
+            {addToBasketDisabled
+              ? 'Login to add the book to cart'
+              : 'Add to cart'}
           </PrimaryStretchedButton>
         </div>
       </div>

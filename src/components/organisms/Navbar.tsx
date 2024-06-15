@@ -12,16 +12,13 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle
 } from '@/components/ui/navigation-menu';
 
 import { ThemeSwitcher } from '../atoms/ThemeSwitcher';
-import { BasketDropdownView } from './BasketDropdownView';
 
 const ListItem = forwardRef<
   React.ElementRef<'a'>,
@@ -73,6 +70,11 @@ export const Navbar = () => {
                 <div className="flex space-x-2 items-center">
                   <ShoppingCart /> <span>Basket</span>
                 </div>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to="/your-orders" className={navigationMenuTriggerStyle()}>
+                <div className="flex space-x-2 items-center">Your books</div>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
