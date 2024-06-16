@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { basketSchema } from './books';
+import { basketSchema, bookSchema } from './books';
 
 export const addBookToCartSchema = z.object({
   addBookToCart: basketSchema
@@ -29,3 +29,15 @@ export const buyBooksSchema = z.object({
 });
 
 export type BuyBooksMutation = z.infer<typeof buyBooksSchema>;
+
+export const addBookToStockSchema = z.object({
+  addBookToStock: bookSchema
+});
+
+export type AddBookToStockMutation = z.infer<typeof addBookToStockSchema>;
+
+export const changeBookPriceSchema = z.object({
+  changeBookPrice: bookSchema
+});
+
+export type ChangeBookPriceMutation = z.infer<typeof changeBookPriceSchema>;

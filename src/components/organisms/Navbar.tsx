@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ShoppingCart } from 'lucide-react';
 import { forwardRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -65,18 +64,35 @@ export const Navbar = () => {
       <NavigationMenuList>
         {currentUser ? (
           <>
-            <NavigationMenuItem>
-              <Link to="/basket" className={navigationMenuTriggerStyle()}>
-                <div className="flex space-x-2 items-center">
-                  <ShoppingCart /> <span>Cart</span>
-                </div>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link to="/your-books" className={navigationMenuTriggerStyle()}>
-                <div className="flex space-x-2 items-center">Your books</div>
-              </Link>
-            </NavigationMenuItem>
+            <p>Welcome, {currentUser.username}</p>
+            {currentUser.role === 'ADMIN' && (
+              <NavigationMenuItem>
+                <Link to="/stock" className={navigationMenuTriggerStyle()}>
+                  Stock
+                </Link>
+              </NavigationMenuItem>
+            )}
+            {currentUser.role === 'USER' && (
+              <>
+                <NavigationMenuItem>
+                  <Link to="/basket" className={navigationMenuTriggerStyle()}>
+                    <div className="flex space-x-2 items-center">
+                      <span>Cart</span>
+                    </div>
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link
+                    to="/your-books"
+                    className={navigationMenuTriggerStyle()}
+                  >
+                    <div className="flex space-x-2 items-center">
+                      Your books
+                    </div>
+                  </Link>
+                </NavigationMenuItem>
+              </>
+            )}
             <NavigationMenuItem>
               <NavigationMenuLink
                 className={navigationMenuTriggerStyle()}

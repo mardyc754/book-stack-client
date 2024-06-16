@@ -18,6 +18,7 @@ import { Login } from '@/components/pages/Login';
 import { Register } from '@/components/pages/Register';
 import { YourBooks } from '@/components/pages/YourBooks';
 
+import { Stock } from './components/pages/Stock';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
 
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: '/your-books',
     element: <YourBooks />
+  },
+  {
+    path: '/stock',
+    element: <Stock />
   }
 ]);
 

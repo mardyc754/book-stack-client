@@ -7,12 +7,13 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 import { BookCard } from '@/components/organisms/cards/BookCard';
 
 import { Pagination } from '../molecules/Pagination';
+import { AdminBookCard } from './cards/AdminBookCard';
 
 interface CardListProps {
   data: BookWithRelations[];
 }
 
-export const BookCardGrid = ({ data }: CardListProps) => {
+export const AdminBookCardGrid = ({ data }: CardListProps) => {
   // const [currentPage, setCurrentPage] = useState(1);
   const { currentUser } = useAuthContext();
 
@@ -30,7 +31,7 @@ export const BookCardGrid = ({ data }: CardListProps) => {
       {/* <Pagination {...paginationProps} /> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 m gap-3">
         {data.map((book) => (
-          <BookCard key={book.id} data={book} showAddToBasket={!!currentUser} />
+          <AdminBookCard key={book.id} data={book} />
         ))}
       </div>
       {/* <Pagination {...paginationProps} /> */}

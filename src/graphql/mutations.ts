@@ -116,3 +116,47 @@ export const buyBooksMutation = gql`
     }
   }
 `;
+
+export const addBookToStockMutation = gql`
+  mutation addBookToStock($bookId: ID!, $quantity: Int!) {
+    addBookToStock(bookId: $bookId, quantity: $quantity) {
+      id
+      authors {
+        firstName
+        lastName
+      }
+      categories {
+        name
+      }
+      ISBN
+      title
+      price
+      imageUrlS
+      imageUrlM
+      imageUrlL
+      quantity
+    }
+  }
+`;
+
+export const changeBookPriceMutation = gql`
+  mutation changeBookPrice($bookId: ID!, $newPrice: Float!) {
+    changeBookPrice(bookId: $bookId, newPrice: $newPrice) {
+      id
+      authors {
+        firstName
+        lastName
+      }
+      categories {
+        name
+      }
+      ISBN
+      title
+      price
+      imageUrlS
+      imageUrlM
+      imageUrlL
+      quantity
+    }
+  }
+`;
