@@ -64,7 +64,7 @@ export const Navbar = () => {
       <NavigationMenuList>
         {currentUser ? (
           <>
-            <p>Welcome, {currentUser.username}</p>
+            <p className="mr-4">Welcome, {currentUser.username}</p>
             {currentUser.role === 'ADMIN' && (
               <NavigationMenuItem>
                 <Link to="/stock" className={navigationMenuTriggerStyle()}>

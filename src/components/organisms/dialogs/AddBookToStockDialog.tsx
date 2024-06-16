@@ -35,7 +35,7 @@ export function AddBookToStockDialog({ data }: ChangePriceDialogProps) {
       <DialogTrigger asChild>
         <PrimaryButton>Add to stock</PrimaryButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px] bg-white">
         <DialogHeader>
           <DialogTitle>Add book to stock</DialogTitle>
           <DialogDescription>Select number of books to add</DialogDescription>
