@@ -83,3 +83,24 @@ export const basketByUserId = gql`
     }
   }
 `;
+
+export const boughtBooksByUserId = gql`
+  query boughtBooksByUserId($userId: ID!) {
+    boughtBooksByUserId(userId: $userId) {
+      user {
+        id
+      }
+      book {
+        id
+        title
+        price
+        imageUrlM
+        authors {
+          firstName
+          lastName
+        }
+      }
+      quantity
+    }
+  }
+`;

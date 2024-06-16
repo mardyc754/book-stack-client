@@ -1,12 +1,16 @@
 import { ZodSchema } from 'zod';
 
-import { allBooks, bookById } from '@/graphql/queries';
+import { buyBooksMutation } from '@/graphql/mutations';
+import { allBooks, bookById, boughtBooksByUserId } from '@/graphql/queries';
 
+import { BuyBooksMutation, buyBooksSchema } from '@/schemas/mutations';
 import {
   AllBooksQuery,
   BookByIdQuery,
+  BoughtBooksByUserIdQuery,
   allBooksSchema,
-  bookByIdSchema
+  bookByIdSchema,
+  boughtBooksByUserIdSchema
 } from '@/schemas/queries';
 
 import { executeRequest } from './executeRequest';
@@ -24,5 +28,21 @@ export const getBookDetails = async (id: string) => {
     bookById,
     bookByIdSchema as unknown as ZodSchema<BookByIdQuery>,
     { id }
+  );
+};
+
+export const buyBooks = async (userId: string) => {
+  return await executeRequest(
+    buyBooksMutation,
+    buyBooksSchema as unknown as ZodSchema<BuyBooksMutation>,
+    { userId }
+  );
+};
+
+export const getBoughtBooks = async (userId: string) => {
+  return await executeRequest(
+    boughtBooksByUserId,
+    boughtBooksByUserIdSchema as unknown as ZodSchema<BoughtBooksByUserIdQuery>,
+    { userId }
   );
 };

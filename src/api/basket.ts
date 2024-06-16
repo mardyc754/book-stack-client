@@ -69,3 +69,8 @@ export const removeBookFromCart = async (bookId: string, userId: string) => {
     }
   );
 };
+
+export const buyBooks = async (userId: string) => {
+  // eslint-disable-next-line no-console
+  console.log('Buying books for user with id:', userId);
+};

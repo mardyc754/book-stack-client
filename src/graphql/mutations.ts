@@ -105,3 +105,14 @@ export const removeBookFromCartMutation = gql`
     }
   }
 `;
+
+export const buyBooksMutation = gql`
+  mutation buyBooks($userId: ID!) {
+    buyBooks(userId: $userId) {
+      id
+      user {
+        id
+      }
+    }
+  }
+`;

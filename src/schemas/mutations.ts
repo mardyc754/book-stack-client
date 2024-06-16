@@ -23,3 +23,9 @@ export const removeBookFromCartSchema = z.object({
 export type RemoveBookFromCartMutation = z.infer<
   typeof removeBookFromCartSchema
 >;
+
+export const buyBooksSchema = z.object({
+  buyBooks: basketSchema.omit({ books: true })
+});
+
+export type BuyBooksMutation = z.infer<typeof buyBooksSchema>;

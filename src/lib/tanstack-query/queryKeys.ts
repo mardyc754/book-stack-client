@@ -2,7 +2,8 @@ import { Book } from '@/schemas/books';
 
 export const book = {
   all: ['book'] as const,
-  byId: (id: Book['id']) => [...book.all, id] as const
+  byId: (id: Book['id']) => [...book.all, id] as const,
+  userBooks: (userId: string) => [...book.all, 'user', userId] as const
 };
 
 export const user = {

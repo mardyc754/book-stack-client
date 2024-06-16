@@ -2,35 +2,29 @@ import { useQuery } from '@tanstack/react-query';
 
 import { basket } from '@/lib/tanstack-query/queryKeys';
 
-import { getUserBasket } from '@/api/basket';
-
-import { useBuyBooks } from '@/hooks/useBuyBooks';
-
-import { PrimaryButton } from '@/components/atoms/Button';
-import { BookBasketCard } from '@/components/organisms/cards/BookBasketCard';
+import { getBoughtBooks } from '@/api/books';
 
 import {
   BoldLargeTypography,
   HighlightedTypography
 } from '../atoms/Typography';
+import { OrderedBookCard } from './cards/OrderedBookCard';
 
-type BasketBooksListProps = {
+type OrderedBooksListProps = {
   userId: string;
 };
 
-export const BasketBooksList = ({ userId }: BasketBooksListProps) => {
+export const OrderedBooksList = ({ userId }: OrderedBooksListProps) => {
   const { data } = useQuery({
     queryKey: basket.byUserId(userId),
-    queryFn: () => getUserBasket(userId)
+    queryFn: () => getBoughtBooks(userId)
   });
-
-  const { mutate: mutateOnBuy } = useBuyBooks({ userId });
 
   return (
     <>
       <div className="flex flex-col space-y-4">
-        {data?.basketByUserId.books.map(({ book, quantity }) => (
-          <BookBasketCard key={book.id} bookData={book} quantity={quantity} />
+        {data?.boughtBooksByUserId.map(({ book, quantity }) => (
+          <OrderedBookCard key={book.id} bookData={book} quantity={quantity} />
         ))}
       </div>
       <div className="flex items-baseline justify-end p-4 space-x-8 space-y-6">
@@ -38,19 +32,12 @@ export const BasketBooksList = ({ userId }: BasketBooksListProps) => {
           <BoldLargeTypography>Total:</BoldLargeTypography>
           <HighlightedTypography>
             {`${(
-              data?.basketByUserId.books.reduce((acc, { book, quantity }) => {
+              data?.boughtBooksByUserId.reduce((acc, { book, quantity }) => {
                 return acc + quantity * Number(book.price);
               }, 0) ?? 0
             ).toFixed(2)} $`}
           </HighlightedTypography>
         </div>
-        <PrimaryButton
-          onClick={() => {
-            mutateOnBuy();
-          }}
-        >
-          Buy
-        </PrimaryButton>
       </div>
     </>
   );

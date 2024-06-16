@@ -16,7 +16,7 @@ import { BookDetails } from '@/components/pages/BookDetails';
 import { Home } from '@/components/pages/Home';
 import { Login } from '@/components/pages/Login';
 import { Register } from '@/components/pages/Register';
-import { UserOrders } from '@/components/pages/UserOrders';
+import { YourBooks } from '@/components/pages/YourBooks';
 
 import { Toaster } from './components/ui/toaster';
 import './index.css';
@@ -58,8 +58,8 @@ const router = createBrowserRouter([
     element: <Basket />
   },
   {
-    path: '/your-orders',
-    element: <UserOrders />
+    path: '/your-books',
+    element: <YourBooks />
   }
 ]);
 

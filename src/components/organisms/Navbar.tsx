@@ -73,7 +73,7 @@ export const Navbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to="/your-orders" className={navigationMenuTriggerStyle()}>
+              <Link to="/your-books" className={navigationMenuTriggerStyle()}>
                 <div className="flex space-x-2 items-center">Your books</div>
               </Link>
             </NavigationMenuItem>
