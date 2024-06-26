@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { basket } from '@/lib/tanstack-query/queryKeys';
+import { book } from '@/lib/tanstack-query/queryKeys';
 
 import { getBoughtBooks } from '@/api/books';
 
@@ -16,7 +16,7 @@ type OrderedBooksListProps = {
 
 export const OrderedBooksList = ({ userId }: OrderedBooksListProps) => {
   const { data } = useQuery({
-    queryKey: basket.byUserId(userId),
+    queryKey: book.userBooks(userId),
     queryFn: () => getBoughtBooks(userId)
   });
 

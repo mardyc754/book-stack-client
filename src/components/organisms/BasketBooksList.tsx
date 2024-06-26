@@ -25,11 +25,16 @@ export const BasketBooksList = ({ userId }: BasketBooksListProps) => {
   });
 
   const { mutate: mutateOnBuy } = useBuyBooks({ userId });
+  const books = data?.basketByUserId?.books;
+
+  if (!books) {
+    return <div>No books in basket</div>;
+  }
 
   return (
     <>
       <div className="flex flex-col space-y-4">
-        {data?.basketByUserId.books.map(({ book, quantity }) => (
+        {books.map(({ book, quantity }) => (
           <BookBasketCard key={book.id} bookData={book} quantity={quantity} />
         ))}
       </div>
@@ -38,7 +43,7 @@ export const BasketBooksList = ({ userId }: BasketBooksListProps) => {
           <BoldLargeTypography>Total:</BoldLargeTypography>
           <HighlightedTypography>
             {`${(
-              data?.basketByUserId.books.reduce((acc, { book, quantity }) => {
+              books.reduce((acc, { book, quantity }) => {
                 return acc + quantity * Number(book.price);
               }, 0) ?? 0
             ).toFixed(2)} $`}

@@ -72,7 +72,7 @@ export const Navbar = () => {
                 </Link>
               </NavigationMenuItem>
             )}
-            {currentUser.role === 'USER' && (
+            {(currentUser.role === 'USER' || currentUser.role == 'ADMIN') && (
               <>
                 <NavigationMenuItem>
                   <Link to="/basket" className={navigationMenuTriggerStyle()}>

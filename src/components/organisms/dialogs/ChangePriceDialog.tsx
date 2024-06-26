@@ -35,7 +35,7 @@ export function ChangePriceDialog({ data }: ChangePriceDialogProps) {
       <DialogTrigger asChild>
         <PrimaryButton>Change price</PrimaryButton>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle>Change price</DialogTitle>
           <DialogDescription>Set a new price for the book</DialogDescription>

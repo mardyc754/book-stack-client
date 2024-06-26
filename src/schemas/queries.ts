@@ -20,7 +20,7 @@ export const bookByIdSchema = z.object({
 export type BookByIdQuery = z.infer<typeof bookByIdSchema>;
 
 export const basketByUserIdSchema = z.object({
-  basketByUserId: basketSchema
+  basketByUserId: z.nullable(basketSchema)
 });
 
 export type BasketByUserIdQuery = z.infer<typeof basketByUserIdSchema>;
