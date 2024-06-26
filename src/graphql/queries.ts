@@ -1,8 +1,8 @@
 import { gql } from 'graphql-request';
 
 export const allBooks = gql`
-  {
-    allBooks {
+  query allBooks($minQuantity: Int) {
+    allBooks(minQuantity: $minQuantity) {
       id
       authors {
         firstName
@@ -17,6 +17,7 @@ export const allBooks = gql`
       imageUrlS
       imageUrlM
       imageUrlL
+      quantity
     }
   }
 `;
@@ -44,6 +45,7 @@ export const bookById = gql`
       imageUrlS
       imageUrlM
       imageUrlL
+      quantity
     }
   }
 `;
@@ -54,6 +56,51 @@ export const currentUser = gql`
       id
       username
       role
+    }
+  }
+`;
+
+export const basketByUserId = gql`
+  query basketByUserId($userId: ID!) {
+    basketByUserId(userId: $userId) {
+      id
+      user {
+        id
+      }
+      books {
+        book {
+          id
+          title
+          price
+          imageUrlM
+          authors {
+            firstName
+            lastName
+          }
+        }
+        quantity
+      }
+    }
+  }
+`;
+
+export const boughtBooksByUserId = gql`
+  query boughtBooksByUserId($userId: ID!) {
+    boughtBooksByUserId(userId: $userId) {
+      user {
+        id
+      }
+      book {
+        id
+        title
+        price
+        imageUrlM
+        authors {
+          firstName
+          lastName
+        }
+      }
+      quantity
     }
   }
 `;

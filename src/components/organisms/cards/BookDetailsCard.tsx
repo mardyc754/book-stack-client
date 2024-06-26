@@ -1,4 +1,9 @@
+import { book } from '@/lib/tanstack-query/queryKeys';
+
 import { BookWithDetails } from '@/schemas/books';
+
+import { useAddBookToBasket } from '@/hooks/useAddBookToBasket';
+import { useAuthContext } from '@/hooks/useAuthContext';
 
 import { PrimaryStretchedButton } from '@/components/atoms/Button';
 import { Divider } from '@/components/atoms/Divider';
@@ -15,10 +20,22 @@ import {
 import { CardTitle } from '@/components/atoms/card/CardTitle';
 
 type BookDetailsCardProps = {
-  book: BookWithDetails;
+  data: BookWithDetails;
+  addToBasketDisabled?: boolean;
 };
 
-export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
+export const BookDetailsCard = ({
+  data,
+  addToBasketDisabled
+}: BookDetailsCardProps) => {
+  const { currentUser } = useAuthContext();
+
+  const { mutate } = useAddBookToBasket({
+    bookId: data.id,
+    userId: currentUser?.id || '',
+    invalidateOnSuccessQueryKey: book.byId(data.id)
+  });
+
   const {
     title,
     authors,
@@ -26,8 +43,9 @@ export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
     categories,
     publicationDate,
     price,
-    publisher
-  } = book;
+    publisher,
+    quantity
+  } = data;
   return (
     <div className="grid grid-cols-12">
       <Figure className="flex flex-1 px-16 col-span-5 col-start-2">
@@ -59,11 +77,21 @@ export const BookDetailsCard = ({ book }: BookDetailsCardProps) => {
           <BoldFragment>{publisher.name}</BoldFragment>
         </BasicTypography>
         <div className="flex flex-col justify-end items-end space-y-2 flex-1">
+          <BoldLargeTypography>Quantity: {quantity}</BoldLargeTypography>
           <BoldLargeTypography>
             {`Price: `}
             <HighlightedTextFragment>{`${price} $`}</HighlightedTextFragment>
           </BoldLargeTypography>
-          <PrimaryStretchedButton>Add to basket</PrimaryStretchedButton>
+          <PrimaryStretchedButton
+            disabled={addToBasketDisabled}
+            onClick={() => {
+              mutate();
+            }}
+          >
+            {addToBasketDisabled
+              ? 'Login to add the book to cart'
+              : 'Add to cart'}
+          </PrimaryStretchedButton>
         </div>
       </div>
     </div>

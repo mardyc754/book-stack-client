@@ -1,25 +1,38 @@
+import { book } from '@/lib/tanstack-query/queryKeys';
+
 import { BookWithRelations } from '@/schemas/books';
+
+import { useAddBookToBasket } from '@/hooks/useAddBookToBasket';
+import { useAuthContext } from '@/hooks/useAuthContext';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';
 import { HighlightedTypography } from '@/components/atoms/Typography';
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 
 interface CardProps {
   data: BookWithRelations;
+  showAddToBasket?: boolean;
 }
 
-export const BookCard = ({ data }: CardProps) => {
+export const BookCard = ({ data, showAddToBasket }: CardProps) => {
+  const { currentUser } = useAuthContext();
+  const { mutate: addToBasket } = useAddBookToBasket({
+    bookId: data.id,
+    userId: currentUser?.id || '',
+    invalidateOnSuccessQueryKey: book.all
+  });
   const { id, authors, categories, price, title, imageUrlM } = data;
   return (
-    <div className="card card-normal bg-base-100 rounded-xl shadow-xl">
-      <div className="p-4">
+    <Card className="h-full flex flex-col">
+      <div className="p-4 flex items-center justify-center">
         <figure>
           <img src={imageUrlM} alt={title} />
         </figure>
       </div>
-      <div className="card-body justify-between">
+      <CardContent className="flex-1">
         <div className="flex flex-col">
-          <h2 className="card-title">{title}</h2>
+          <CardTitle>{title}</CardTitle>
           <p>
             {authors
               .map(({ firstName, lastName }) => `${firstName} ${lastName}`)
@@ -27,16 +40,20 @@ export const BookCard = ({ data }: CardProps) => {
           </p>
           <p>{categories.map(({ name }) => name).join(', ')}</p>
         </div>
-        <div className="flex flex-col items-end space-y-2">
-          <HighlightedTypography>{`${price} $`}</HighlightedTypography>
-          <div className="card-actions justify-end">
-            <PrimaryButtonWithLink href={`/books/${id}`}>
-              Details
-            </PrimaryButtonWithLink>
-            <PrimaryButton>Add to basket</PrimaryButton>
-          </div>
+      </CardContent>
+      <CardFooter className="justify-end flex-col items-end">
+        <HighlightedTypography>{`${price} $`}</HighlightedTypography>
+        <div className="flex space-x-2  items-end space-y-2">
+          <PrimaryButtonWithLink href={`/books/${id}`}>
+            Details
+          </PrimaryButtonWithLink>
+          {showAddToBasket && (
+            <PrimaryButton onClick={() => addToBasket()}>
+              Add to basket
+            </PrimaryButton>
+          )}
         </div>
-      </div>
-    </div>
+      </CardFooter>
+    </Card>
   );
 };

@@ -32,3 +32,14 @@ export const PrimaryStretchedButton = ({
     </button>
   );
 };
+
+export const ErrorButton = ({
+  children,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  return (
+    <button className="btn btn-error text-white" {...props}>
+      {children}
+    </button>
+  );
+};

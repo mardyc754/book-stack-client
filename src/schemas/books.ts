@@ -19,7 +19,8 @@ export const bookSchema = z.object({
   price: z.number().transform((value) => Number(value).toFixed(2)),
   imageUrlS: z.string(),
   imageUrlM: z.string(),
-  imageUrlL: z.string()
+  imageUrlL: z.string(),
+  quantity: z.number().int()
 });
 
 export const bookWithRelationsSchema = bookSchema.extend({
@@ -37,9 +38,42 @@ export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
   publisher: publisherSchema
 });
 
+export const basketSchema = z.object({
+  id: z.string(),
+  user: z.object({
+    id: z.string()
+  }),
+  books: z.array(
+    z.object({
+      book: bookWithRelationsSchema.pick({
+        id: true,
+        title: true,
+        price: true,
+        imageUrlM: true,
+        authors: true
+      }),
+      quantity: z.number().int()
+    })
+  )
+});
+
+export const boughtBookSchema = z.object({
+  book: bookWithRelationsSchema.pick({
+    id: true,
+    title: true,
+    price: true,
+    imageUrlM: true,
+    authors: true
+  }),
+  quantity: z.number().int()
+});
+
 export type Author = z.infer<typeof authorSchema>;
 export type Category = z.infer<typeof categorySchema>;
 export type Publisher = z.infer<typeof publisherSchema>;
 export type Book = z.infer<typeof bookSchema>;
+export type Basket = z.infer<typeof basketSchema>;
 export type BookWithRelations = z.infer<typeof bookWithRelationsSchema>;
 export type BookWithDetails = z.infer<typeof bookWithDetailsSchema>;
+export type BoughtBook = z.infer<typeof boughtBookSchema>;
+export type BoughtBooks = BoughtBook[];

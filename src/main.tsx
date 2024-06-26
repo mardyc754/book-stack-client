@@ -11,12 +11,15 @@ import { bookDetailsQuery } from '@/lib/tanstack-query/queries';
 
 import { AuthProvider } from '@/providers/AuthProvider';
 
+import { Basket } from '@/components/pages/Basket';
 import { BookDetails } from '@/components/pages/BookDetails';
 import { Home } from '@/components/pages/Home';
 import { Login } from '@/components/pages/Login';
 import { Register } from '@/components/pages/Register';
-import { UserOrders } from '@/components/pages/UserOrders';
+import { YourBooks } from '@/components/pages/YourBooks';
 
+import { Stock } from './components/pages/Stock';
+import { Toaster } from './components/ui/toaster';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -52,8 +55,16 @@ const router = createBrowserRouter([
     element: <Register />
   },
   {
-    path: '/your-orders',
-    element: <UserOrders />
+    path: '/basket',
+    element: <Basket />
+  },
+  {
+    path: '/your-books',
+    element: <YourBooks />
+  },
+  {
+    path: '/stock',
+    element: <Stock />
   }
 ]);
 
@@ -61,7 +72,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router}></RouterProvider>
+        <RouterProvider router={router} />
+        <Toaster />
       </AuthProvider>
     </QueryClientProvider>
   </React.StrictMode>
