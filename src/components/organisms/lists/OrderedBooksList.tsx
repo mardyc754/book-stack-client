@@ -7,8 +7,8 @@ import { getBoughtBooks } from '@/api/books';
 import {
   BoldLargeTypography,
   HighlightedTypography
-} from '../atoms/Typography';
-import { OrderedBookCard } from './cards/OrderedBookCard';
+} from '@/components/atoms/Typography';
+import { OrderedBookCard } from '@/components/organisms/cards/OrderedBookCard';
 
 type OrderedBooksListProps = {
   userId: string;

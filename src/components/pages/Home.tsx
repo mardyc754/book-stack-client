@@ -2,10 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getAllBooks } from '@/api/books';
 
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
+import { BookCardGrid } from '@/components/organisms/grids/BookCardGrid';
 import { PageWrapper } from '@/components/templates/PageWrapper';
-
-import { LoadingSpinner } from '../atoms/LoadingSpinner';
-import { BookCardGrid } from '../organisms/BookCardGrid';
 
 export const Home = () => {
   const { data, error, isLoading } = useQuery({

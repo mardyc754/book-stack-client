@@ -160,3 +160,23 @@ export const changeBookPriceMutation = gql`
     }
   }
 `;
+
+export const changeUserPasswordMutation = gql`
+  mutation changeUserPassword($userId: ID!, $newPassword: String!) {
+    changeUserPassword(userId: $userId, newPassword: $newPassword) {
+      id
+      username
+      role
+    }
+  }
+`;
+
+export const changeUserRoleMutation = gql`
+  mutation changeUserRole($userId: ID!, $newRole: String!) {
+    changeUserRole(userId: $userId, newRole: $newRole) {
+      id
+      username
+      role
+    }
+  }
+`;

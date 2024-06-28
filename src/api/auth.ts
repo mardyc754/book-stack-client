@@ -1,13 +1,19 @@
 import {
+  changeUserPasswordMutation,
+  changeUserRoleMutation,
   loginMutation,
   logoutMutation,
   registrationMutation
 } from '@/graphql/mutations';
-import { currentUser as currentUserQuery } from '@/graphql/queries';
+import { allUsers, currentUser as currentUserQuery } from '@/graphql/queries';
 
 import {
   LoginData,
   RegistrationData,
+  User,
+  allUsersSchema,
+  changeUserPasswordSchema,
+  changeUserRoleSchema,
   currentUserSchema,
   loginResponseSchema,
   logoutResponseSchema,
@@ -41,4 +47,32 @@ export const signUp = async ({
 
 export const logout = async () => {
   return await executeRequest(logoutMutation, logoutResponseSchema);
+};
+
+export const getAllUsers = async () => {
+  return await executeRequest(allUsers, allUsersSchema);
+};
+
+export const changeUserPassword = async (
+  userId: User['id'],
+  newPassword: string
+) => {
+  return await executeRequest(
+    changeUserPasswordMutation,
+    changeUserPasswordSchema,
+    {
+      userId,
+      newPassword
+    }
+  );
+};
+
+export const changeUserRole = async (
+  userId: User['id'],
+  newRole: User['role']
+) => {
+  return await executeRequest(changeUserRoleMutation, changeUserRoleSchema, {
+    userId,
+    newRole
+  });
 };

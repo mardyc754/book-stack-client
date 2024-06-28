@@ -7,12 +7,11 @@ import { getUserBasket } from '@/api/basket';
 import { useBuyBooks } from '@/hooks/useBuyBooks';
 
 import { PrimaryButton } from '@/components/atoms/Button';
-import { BookBasketCard } from '@/components/organisms/cards/BookBasketCard';
-
 import {
   BoldLargeTypography,
   HighlightedTypography
-} from '../atoms/Typography';
+} from '@/components/atoms/Typography';
+import { BookBasketCard } from '@/components/organisms/cards/BookBasketCard';
 
 type BasketBooksListProps = {
   userId: string;

@@ -1,7 +1,7 @@
 import { useAuthContext } from '@/hooks/useAuthContext';
 
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
-import { BasketBooksList } from '@/components/organisms/BasketBooksList';
+import { BasketBooksList } from '@/components/organisms/lists/BasketBooksList';
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
 export const Basket = () => {

@@ -1,6 +1,6 @@
 import { BookWithRelations } from '@/schemas/books';
 
-import { AdminBookCard } from './cards/AdminBookCard';
+import { AdminBookCard } from '@/components/organisms/cards/AdminBookCard';
 
 interface CardListProps {
   data: BookWithRelations[];

@@ -66,11 +66,18 @@ export const Navbar = () => {
           <>
             <p className="mr-4">Welcome, {currentUser.username}</p>
             {currentUser.role === 'ADMIN' && (
-              <NavigationMenuItem>
-                <Link to="/stock" className={navigationMenuTriggerStyle()}>
-                  Stock
-                </Link>
-              </NavigationMenuItem>
+              <>
+                <NavigationMenuItem>
+                  <Link to="/stock" className={navigationMenuTriggerStyle()}>
+                    Stock
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link to="/users" className={navigationMenuTriggerStyle()}>
+                    Users
+                  </Link>
+                </NavigationMenuItem>
+              </>
             )}
             {(currentUser.role === 'USER' || currentUser.role == 'ADMIN') && (
               <>

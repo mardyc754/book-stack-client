@@ -6,10 +6,9 @@ import { getAllBooks } from '@/api/books';
 
 import { useAuthContext } from '@/hooks/useAuthContext';
 
+import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
+import { AdminBookCardGrid } from '@/components/organisms/grids/AdminBookCardGrid';
 import { PageWrapper } from '@/components/templates/PageWrapper';
-
-import { LoadingSpinner } from '../atoms/LoadingSpinner';
-import { AdminBookCardGrid } from '../organisms/AdminBookCardGrid';
 
 export const Stock = () => {
   const { currentUser } = useAuthContext();

@@ -104,3 +104,13 @@ export const boughtBooksByUserId = gql`
     }
   }
 `;
+
+export const allUsers = gql`
+  {
+    allUsers {
+      id
+      username
+      role
+    }
+  }
+`;

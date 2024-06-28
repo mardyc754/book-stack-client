@@ -16,10 +16,11 @@ import { BookDetails } from '@/components/pages/BookDetails';
 import { Home } from '@/components/pages/Home';
 import { Login } from '@/components/pages/Login';
 import { Register } from '@/components/pages/Register';
+import { Stock } from '@/components/pages/Stock';
+import { Users } from '@/components/pages/Users';
 import { YourBooks } from '@/components/pages/YourBooks';
+import { Toaster } from '@/components/ui/toaster';
 
-import { Stock } from './components/pages/Stock';
-import { Toaster } from './components/ui/toaster';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: '/stock',
     element: <Stock />
+  },
+  {
+    path: '/users',
+    element: <Users />
   }
 ]);
 

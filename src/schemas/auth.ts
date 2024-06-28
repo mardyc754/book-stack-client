@@ -80,11 +80,27 @@ export const logoutResponseSchema = z.object({
 export type LogoutResponse = z.infer<typeof logoutResponseSchema>;
 
 export const currentUserSchema = z.object({
-  currentUser: z.object({
-    id: z.string(),
-    username: z.string(),
-    role: roleSchema
-  })
+  currentUser: userSchema
 });
 
 export type CurrentUserQuery = z.infer<typeof currentUserSchema>;
+
+export const allUsersSchema = z.object({
+  allUsers: z.array(userSchema)
+});
+
+export type AllUsersQuery = z.infer<typeof allUsersSchema>;
+
+export const changeUserPasswordSchema = z.object({
+  changeUserPassword: userSchema
+});
+
+export type ChangeUserPasswordMutation = z.infer<
+  typeof changeUserPasswordSchema
+>;
+
+export const changeUserRoleSchema = z.object({
+  changeUserRole: userSchema
+});
+
+export type ChangeUserRoleMutation = z.infer<typeof changeUserRoleSchema>;
