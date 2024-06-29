@@ -21,6 +21,7 @@ import { Users } from '@/components/pages/Users';
 import { YourBooks } from '@/components/pages/YourBooks';
 import { Toaster } from '@/components/ui/toaster';
 
+import { AddBook } from './components/pages/AddBook';
 import './index.css';
 
 const queryClient = new QueryClient();
@@ -70,6 +71,10 @@ const router = createBrowserRouter([
   {
     path: '/users',
     element: <Users />
+  },
+  {
+    path: '/add-book',
+    element: <AddBook />
   }
 ]);
 

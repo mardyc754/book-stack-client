@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 
 import { book } from '@/lib/tanstack-query/queryKeys';
 
@@ -9,6 +10,8 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
 import { AdminBookCardGrid } from '@/components/organisms/grids/AdminBookCardGrid';
 import { PageWrapper } from '@/components/templates/PageWrapper';
+
+import { Button } from '../atoms/Button';
 
 export const Stock = () => {
   const { currentUser } = useAuthContext();
@@ -27,7 +30,12 @@ export const Stock = () => {
       ) : (
         <>
           {currentUser?.role && (
-            <AdminBookCardGrid data={data?.allBooks ?? []} />
+            <>
+              <Button>
+                <Link to="/add-book">Add book</Link>
+              </Button>
+              <AdminBookCardGrid data={data?.allBooks ?? []} />
+            </>
           )}
         </>
       )}

@@ -2,24 +2,24 @@ import { forwardRef } from 'react';
 
 import { cn } from '@/lib/tailwind/cn';
 
-import { Input } from '@/components/ui/input';
+import { Textarea as ShadcnTextarea } from '@/components/ui/textarea';
 
-interface TextfieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   errorLabel?: string;
 }
 
-export const Textfield = forwardRef<HTMLInputElement, TextfieldProps>(
-  ({ label, errorLabel, type, placeholder, ...props }, ref) => {
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  ({ label, errorLabel, placeholder, ...props }, ref) => {
     return (
       <div className={cn('form-control', !errorLabel ? 'pb-5' : 'pb-0')}>
         <label className="label">
           <span className="label-text">{label}</span>
         </label>
-        <Input
+        <ShadcnTextarea
           {...props}
           ref={ref}
-          type={type}
           placeholder={placeholder}
           className={cn('input input-bordered', {
             'input-error': !!errorLabel
@@ -31,4 +31,4 @@ export const Textfield = forwardRef<HTMLInputElement, TextfieldProps>(
   }
 );
 
-Textfield.displayName = 'Textfield';
+Textarea.displayName = 'Textfield';
