@@ -14,9 +14,10 @@ export const allBooks = gql`
       ISBN
       title
       price
-      imageUrlS
-      imageUrlM
-      imageUrlL
+      image {
+        filename
+        content
+      }
       quantity
     }
   }
@@ -42,9 +43,10 @@ export const bookById = gql`
       publisher {
         name
       }
-      imageUrlS
-      imageUrlM
-      imageUrlL
+      image {
+        filename
+        content
+      }
       quantity
     }
   }
@@ -72,7 +74,10 @@ export const basketByUserId = gql`
           id
           title
           price
-          imageUrlM
+          image {
+            filename
+            content
+          }
           authors {
             firstName
             lastName
@@ -94,7 +99,10 @@ export const boughtBooksByUserId = gql`
         id
         title
         price
-        imageUrlM
+        image {
+          filename
+          content
+        }
         authors {
           firstName
           lastName
@@ -111,6 +119,34 @@ export const allUsers = gql`
       id
       username
       role
+    }
+  }
+`;
+
+export const allAuthorsQuery = gql`
+  {
+    allAuthors {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const allCategoriesQuery = gql`
+  {
+    allCategories {
+      id
+      name
+    }
+  }
+`;
+
+export const allPublishersQuery = gql`
+  {
+    allPublishers {
+      id
+      name
     }
   }
 `;

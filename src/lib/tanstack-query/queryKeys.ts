@@ -18,3 +18,15 @@ export const basket = {
   all: ['basket'] as const,
   byUserId: (userId: string) => [...basket.all, userId] as const
 };
+
+export const author = {
+  all: ['author'] as const
+};
+
+export const category = {
+  all: ['category'] as const
+};
+
+export const publisher = {
+  all: ['publisher'] as const
+};

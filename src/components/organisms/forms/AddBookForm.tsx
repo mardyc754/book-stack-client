@@ -1,37 +1,70 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { GraphQLError } from 'graphql';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { user } from '@/lib/tanstack-query/queryKeys';
+import {
+  author,
+  book,
+  category,
+  publisher
+} from '@/lib/tanstack-query/queryKeys';
 import { cn } from '@/lib/utils';
 
-import { login } from '@/api/auth';
+import {
+  addAuthor,
+  addBook,
+  addCategory,
+  addPublisher,
+  getAllAuthors,
+  getAllCategories,
+  getAllPublishers,
+  uploadBookCoverImage
+} from '@/api/books';
 
-import { type LoginData, LoginResponse } from '@/schemas/auth';
+import { UploadBookCoverSuccess } from '@/schemas/books';
+import {
+  AddBookFormData,
+  AddBookMutation,
+  addBookFormResolver
+} from '@/schemas/mutations';
 
-import { Button, PrimaryButton } from '@/components/atoms/Button';
-import { Form } from '@/components/atoms/forms/Form';
+import { PrimaryButton } from '@/components/atoms/Button';
+import { FileInput } from '@/components/atoms/forms/FileInput';
 import { FormActions } from '@/components/atoms/forms/FormActions';
 import { SelectOrAddField } from '@/components/atoms/forms/SelectOrAddField';
-import { NumericInput } from '@/components/molecules/forms/NumericInput';
-import { Select } from '@/components/molecules/forms/Select';
+import { FormNumericInput } from '@/components/molecules/forms/FormNumericInput';
 import { Textarea } from '@/components/molecules/forms/Textarea';
 import { Textfield } from '@/components/molecules/forms/Textfield';
-import { Input } from '@/components/ui/input';
+
+import {
+  generateAuthorSelectOptions,
+  generateCategorySelectOptions,
+  generatePublisherSelectOptions
+} from '@/utils/generateSelectOptions';
 
 export const AddBookForm = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  //   const {
-  //     handleSubmit,
-  //     register,
-  //     formState: { errors },
-  //     setError
-  //   } = useForm<LoginData>({
-  //     resolver: AddBookFormResolver
-  //   });
+  const methods = useForm<AddBookFormData>({
+    resolver: addBookFormResolver
+  });
+
+  const { data: authors } = useQuery({
+    queryKey: author.all,
+    queryFn: getAllAuthors
+  });
+
+  const { data: publishers } = useQuery({
+    queryKey: publisher.all,
+    queryFn: getAllPublishers
+  });
+
+  const { data: categories } = useQuery({
+    queryKey: category.all,
+    queryFn: getAllCategories
+  });
 
   //   const mutation = useMutation<LoginResponse, GraphQLError, LoginData>({
   //     mutationFn: login,
@@ -50,93 +83,139 @@ export const AddBookForm = () => {
 
   //     // mutation.mutate(values);
   //   });
+  const { mutate: addBookMutation, data: mutationResult } = useMutation<
+    AddBookMutation,
+    GraphQLError,
+    AddBookFormData
+  >({
+    mutationFn: () => addBook(methods.getValues())
+    // onSuccess: () => {
+    //   queryClient.invalidateQueries({ queryKey: book.all });
+    //   // methods.reset();
+    // }
+  });
+
+  // const { mutate: uploadBookCoverImageMutation } = useMutation({
+  //   mutationFn: () =>
+  //     uploadBookCoverImage(
+  //       mutationResult?.addBook.id,
+  //       methods.getValues('image')
+  //     ),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: book.all });
+  //     // methods.reset();
+  //   }
+  // });
+
+  const onSubmit = methods.handleSubmit((values, e) => {
+    e?.preventDefault();
+    addBookMutation(values);
+    // uploadBookCoverImageMutation();
+    console.log('>>>> submit successful', values);
+  });
+
+  console.log(methods.watch());
+  console.log('>>>>> errors', methods.formState.errors);
 
   return (
-    <form
-      className={cn(
-        'shadow-xl rounded-xl p-8 gap-2 max-w-md m-auto min-w-full space-y-4'
-        // 'grid grid-cols-2'
-      )}
-      onSubmit={() => {
-        // TODO: Implement form submit
-      }}
-    >
-      <Textfield
-        label="Title"
-        placeholder="Title"
-        className="input input-bordered"
-      />
-      <Textarea
-        label="Description"
-        placeholder="Description"
-        className="input input-bordered"
-      />
-      {/*  */}
-      {/* <div className="flex flex space-x-2">
-        <Select />
-        <Textfield label="Add new Author" placeholder="Add new Author" />
-        <Button>Add Author</Button>
-      </div> */}
-      <SelectOrAddField
-        selectProps={{ isMulti: true }}
-        label="Author"
-        placeholder="Add new Author"
-        addButtonText="Add Author"
-      />
+    <FormProvider {...methods}>
+      <form
+        className={cn(
+          'shadow-xl rounded-xl p-8 gap-2 max-w-md m-auto min-w-full space-y-4'
+        )}
+        onSubmit={onSubmit}
+      >
+        <Textfield
+          label="Title"
+          placeholder="Title"
+          className="input input-bordered"
+          {...methods.register('title')}
+        />
+        <Textarea
+          label="Description"
+          placeholder="Description"
+          className="input input-bordered"
+          {...methods.register('description')}
+        />
+        <SelectOrAddField
+          name="authorIds"
+          selectProps={{
+            isMulti: true,
+            options: generateAuthorSelectOptions(authors?.allAuthors ?? [])
+          }}
+          label="Author"
+          placeholder="Add new Author"
+          addButtonText="Add Author"
+          addFieldNames={['firstName', 'lastName']}
+          addFunction={addAuthor}
+          addFieldPrefix="author"
+          addFunctionQueryKey={author.all}
+        />
 
-      <SelectOrAddField
-        selectProps={{ isMulti: false }}
-        label="Publisher"
-        placeholder="Add new Publisher"
-        addButtonText="Add Publisher"
-      />
-      <Textfield
-        type="date"
-        label="Published Date"
-        placeholder="Published Date"
-        className="input input-bordered"
-      />
-      <Textfield
-        label="ISBN"
-        placeholder="ISBN"
-        className="input input-bordered"
-      />
-      <NumericInput
-        id="page-count"
-        label="Page Count"
-        initialValue={1}
-        onChange={() => {
-          // TODO
-        }}
-      />
+        <SelectOrAddField
+          name="publisherId"
+          selectProps={{
+            isMulti: false,
+            options: generatePublisherSelectOptions(
+              publishers?.allPublishers ?? []
+            )
+          }}
+          label="Publisher"
+          placeholder="Add new Publisher"
+          addButtonText="Add Publisher"
+          addFunction={addPublisher}
+          addFunctionQueryKey={publisher.all}
+          addFieldNames={['name']}
+          addFieldPrefix="publisher"
+        />
+        <Textfield
+          type="date"
+          label="Publication Date"
+          className="input input-bordered"
+          {...methods.register('publicationDate')}
+        />
+        <Textfield
+          label="ISBN"
+          placeholder="ISBN"
+          className="input input-bordered"
+          {...methods.register('ISBN')}
+        />
+        <FormNumericInput
+          id="page-count"
+          label="Page Count"
+          initialValue={1}
+          name="pageCount"
+        />
 
-      <SelectOrAddField
-        selectProps={{ isMulti: true }}
-        label="Categories"
-        placeholder="Add new Category"
-        addButtonText="Add Category"
-      />
+        <SelectOrAddField
+          name="categoryIds"
+          selectProps={{
+            isMulti: true,
+            options: generateCategorySelectOptions(
+              categories?.allCategories ?? []
+            )
+          }}
+          label="Categories"
+          placeholder="Add new Category"
+          addButtonText="Add Category"
+          addFunction={addCategory}
+          addFunctionQueryKey={category.all}
+          addFieldNames={['name']}
+          addFieldPrefix="category"
+        />
 
-      <NumericInput
-        id="quantity"
-        label="Quantity"
-        initialValue={1}
-        onChange={() => {
-          // TODO
-        }}
-      />
-      <NumericInput
-        id="price"
-        label="Price"
-        initialValue={1}
-        onChange={() => {
-          // TODO
-        }}
-      />
-      <Textfield label="Cover Image" type="file" />
-      <FormActions>
-        <PrimaryButton type="submit">Submit</PrimaryButton>
-      </FormActions>
-    </form>
+        <FormNumericInput
+          id="quantity"
+          label="Quantity"
+          initialValue={1}
+          name="quantity"
+        />
+        <Textfield id="price" label="Price" {...methods.register('price')} />
+        <FileInput label="Cover Image" name="image" />
+        <FormActions>
+          <PrimaryButton type="submit">Submit</PrimaryButton>
+        </FormActions>
+      </form>
+    </FormProvider>
   );
 };

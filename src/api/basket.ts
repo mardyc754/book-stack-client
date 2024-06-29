@@ -17,10 +17,10 @@ import {
 } from '@/schemas/mutations';
 import { BasketByUserIdQuery, basketByUserIdSchema } from '@/schemas/queries';
 
-import { executeRequest } from './executeRequest';
+import { executeGraphQLRequest } from './executeGraphQLRequest';
 
 export const getUserBasket = async (userId: string) => {
-  return await executeRequest(
+  return await executeGraphQLRequest(
     basketByUserId,
     basketByUserIdSchema as unknown as ZodSchema<BasketByUserIdQuery>,
     { userId }
@@ -32,7 +32,7 @@ export const addBookToCart = async (
   userId: string,
   quantity = 1
 ) => {
-  return await executeRequest(
+  return await executeGraphQLRequest(
     addBookToCartMutation,
     addBookToCartSchema as unknown as ZodSchema<AddBookToCartMutation>,
     {
@@ -48,7 +48,7 @@ export const changeBookQuantityInCart = async (
   userId: string,
   quantity = 1
 ) => {
-  return await executeRequest(
+  return await executeGraphQLRequest(
     changeBookQuantityInCartMutation,
     changeBookQuantityInCartSchema as unknown as ZodSchema<ChangeBookQuantityInCartMutation>,
     {
@@ -60,7 +60,7 @@ export const changeBookQuantityInCart = async (
 };
 
 export const removeBookFromCart = async (bookId: string, userId: string) => {
-  return await executeRequest(
+  return await executeGraphQLRequest(
     removeBookFromCartMutation,
     removeBookFromCartSchema as unknown as ZodSchema<RemoveBookFromCartMutation>,
     {

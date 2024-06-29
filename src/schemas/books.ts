@@ -1,15 +1,32 @@
 import { z } from 'zod';
 
+export const priceSchema = z
+  .string()
+  .transform((val) => parseFloat(val))
+  .refine(
+    (val) => {
+      return !isNaN(val);
+    },
+    { message: 'Price must be a valid number' }
+  )
+  .refine((val) => val > 0, { message: 'Price must be greater than 0' })
+  .refine((val) => val < 10000, {
+    message: 'Price must be less than 10000'
+  });
+
 export const authorSchema = z.object({
+  id: z.string(),
   firstName: z.string(),
   lastName: z.string()
 });
 
 export const categorySchema = z.object({
+  id: z.string(),
   name: z.string()
 });
 
 export const publisherSchema = z.object({
+  id: z.string(),
   name: z.string()
 });
 
@@ -17,15 +34,13 @@ export const bookSchema = z.object({
   id: z.string(),
   title: z.string(),
   price: z.number().transform((value) => Number(value).toFixed(2)),
-  imageUrlS: z.string(),
-  imageUrlM: z.string(),
-  imageUrlL: z.string(),
+  image: z.string().base64().nullable().optional(),
   quantity: z.number().int()
 });
 
 export const bookWithRelationsSchema = bookSchema.extend({
-  authors: z.array(authorSchema),
-  categories: z.array(categorySchema)
+  authors: z.array(authorSchema.omit({ id: true })),
+  categories: z.array(categorySchema.omit({ id: true }))
 });
 
 export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
@@ -35,7 +50,7 @@ export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
   publicationDate: z
     .string()
     .transform((value) => new Date(value).toLocaleDateString()),
-  publisher: publisherSchema
+  publisher: publisherSchema.omit({ id: true })
 });
 
 export const basketSchema = z.object({
@@ -49,7 +64,7 @@ export const basketSchema = z.object({
         id: true,
         title: true,
         price: true,
-        imageUrlM: true,
+        image: true,
         authors: true
       }),
       quantity: z.number().int()
@@ -62,8 +77,8 @@ export const boughtBookSchema = z.object({
     id: true,
     title: true,
     price: true,
-    imageUrlM: true,
-    authors: true
+    authors: true,
+    image: true
   }),
   quantity: z.number().int()
 });
@@ -77,3 +92,17 @@ export type BookWithRelations = z.infer<typeof bookWithRelationsSchema>;
 export type BookWithDetails = z.infer<typeof bookWithDetailsSchema>;
 export type BoughtBook = z.infer<typeof boughtBookSchema>;
 export type BoughtBooks = BoughtBook[];
+
+export const uploadBookCoverSuccessSchema = z.object({
+  id: z.string(),
+  filename: z.string(),
+  content: z.string().base64()
+});
+
+export type UploadBookCoverSuccess = z.infer<
+  typeof uploadBookCoverSuccessSchema
+>;
+
+export const basicErrorSchema = z.object({
+  message: z.string()
+});

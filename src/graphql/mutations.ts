@@ -38,7 +38,10 @@ export const addBookToCartMutation = gql`
           id
           title
           price
-          imageUrlM
+          image {
+            filename
+            content
+          }
           authors {
             firstName
             lastName
@@ -70,7 +73,7 @@ export const changeBookQuantityInCartMutation = gql`
           id
           title
           price
-          imageUrlM
+          image
           authors {
             firstName
             lastName
@@ -131,9 +134,10 @@ export const addBookToStockMutation = gql`
       ISBN
       title
       price
-      imageUrlS
-      imageUrlM
-      imageUrlL
+      image {
+        filename
+        content
+      }
       quantity
     }
   }
@@ -153,9 +157,10 @@ export const changeBookPriceMutation = gql`
       ISBN
       title
       price
-      imageUrlS
-      imageUrlM
-      imageUrlL
+      image {
+        filename
+        content
+      }
       quantity
     }
   }
@@ -177,6 +182,79 @@ export const changeUserRoleMutation = gql`
       id
       username
       role
+    }
+  }
+`;
+
+export const addBookMutation = gql`
+  mutation addBook(
+    $title: String!
+    $price: Float!
+    $publicationDate: String!
+    $pageCount: Int!
+    $ISBN: String!
+    $description: String
+    $quantity: Int!
+    $publisherId: ID!
+    $authorIds: [ID!]!
+    $categoryIds: [ID!]!
+  ) {
+    addBook(
+      title: $title
+      price: $price
+      publicationDate: $publicationDate
+      pageCount: $pageCount
+      ISBN: $ISBN
+      description: $description
+      quantity: $quantity
+      publisherId: $publisherId
+      authorIds: $authorIds
+      categoryIds: $categoryIds
+    ) {
+      id
+      authors {
+        firstName
+        lastName
+      }
+      categories {
+        name
+      }
+      ISBN
+      title
+      price
+      quantity
+      image {
+        filename
+        content
+      }
+    }
+  }
+`;
+
+export const addAuthorMutation = gql`
+  mutation addAuthor($firstName: String!, $lastName: String!) {
+    addAuthor(firstName: $firstName, lastName: $lastName) {
+      id
+      firstName
+      lastName
+    }
+  }
+`;
+
+export const addCategoryMutation = gql`
+  mutation addCategory($name: String!) {
+    addCategory(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+export const addPublisherMutation = gql`
+  mutation addPublisher($name: String!) {
+    addPublisher(name: $name) {
+      id
+      name
     }
   }
 `;

@@ -20,17 +20,17 @@ import {
   registationResponseSchema
 } from '@/schemas/auth';
 
-import { executeRequest } from './executeRequest';
+import { executeGraphQLRequest } from './executeGraphQLRequest';
 
 export const login = async ({ username, password }: LoginData) => {
-  return await executeRequest(loginMutation, loginResponseSchema, {
+  return await executeGraphQLRequest(loginMutation, loginResponseSchema, {
     username,
     password
   });
 };
 
 export const getCurrentUser = async () => {
-  return await executeRequest(currentUserQuery, currentUserSchema);
+  return await executeGraphQLRequest(currentUserQuery, currentUserSchema);
 };
 
 export const signUp = async ({
@@ -38,26 +38,30 @@ export const signUp = async ({
   email,
   password
 }: RegistrationData) => {
-  return await executeRequest(registrationMutation, registationResponseSchema, {
-    username,
-    email,
-    password
-  });
+  return await executeGraphQLRequest(
+    registrationMutation,
+    registationResponseSchema,
+    {
+      username,
+      email,
+      password
+    }
+  );
 };
 
 export const logout = async () => {
-  return await executeRequest(logoutMutation, logoutResponseSchema);
+  return await executeGraphQLRequest(logoutMutation, logoutResponseSchema);
 };
 
 export const getAllUsers = async () => {
-  return await executeRequest(allUsers, allUsersSchema);
+  return await executeGraphQLRequest(allUsers, allUsersSchema);
 };
 
 export const changeUserPassword = async (
   userId: User['id'],
   newPassword: string
 ) => {
-  return await executeRequest(
+  return await executeGraphQLRequest(
     changeUserPasswordMutation,
     changeUserPasswordSchema,
     {
@@ -71,8 +75,12 @@ export const changeUserRole = async (
   userId: User['id'],
   newRole: User['role']
 ) => {
-  return await executeRequest(changeUserRoleMutation, changeUserRoleSchema, {
-    userId,
-    newRole
-  });
+  return await executeGraphQLRequest(
+    changeUserRoleMutation,
+    changeUserRoleSchema,
+    {
+      userId,
+      newRole
+    }
+  );
 };

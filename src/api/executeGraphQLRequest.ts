@@ -12,12 +12,17 @@ const graphQLClient = new GraphQLClient(
   }
 );
 
-export const executeRequest = async <T>(
+export const executeGraphQLRequest = async <T>(
   query: string,
   parser: ZodSchema<T>,
-  variables?: Record<string, unknown>
+  variables?: Record<string, unknown> | FormData,
+  requestHeaders?: Record<string, string>
 ) => {
-  const response = await graphQLClient.request<T>(query, variables);
+  const response = await graphQLClient.request<T>(
+    query,
+    variables,
+    requestHeaders
+  );
 
   if (response && response instanceof Object && 'errors' in response) {
     throw new GraphQLError(

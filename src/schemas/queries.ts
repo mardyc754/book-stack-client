@@ -1,10 +1,13 @@
 import { z } from 'zod';
 
 import {
+  authorSchema,
   basketSchema,
   bookWithDetailsSchema,
   bookWithRelationsSchema,
-  boughtBookSchema
+  boughtBookSchema,
+  categorySchema,
+  publisherSchema
 } from './books';
 
 export const allBooksSchema = z.object({
@@ -32,3 +35,21 @@ export const boughtBooksByUserIdSchema = z.object({
 export type BoughtBooksByUserIdQuery = z.infer<
   typeof boughtBooksByUserIdSchema
 >;
+
+export const allAuthorsSchema = z.object({
+  allAuthors: authorSchema.array()
+});
+
+export type AllAuthorsQuery = z.infer<typeof allAuthorsSchema>;
+
+export const allCategoriesSchema = z.object({
+  allCategories: categorySchema.array()
+});
+
+export type AllCategoriesQuery = z.infer<typeof allCategoriesSchema>;
+
+export const allPublishersSchema = z.object({
+  allPublishers: publisherSchema.array()
+});
+
+export type AllPublishersQuery = z.infer<typeof allPublishersSchema>;
