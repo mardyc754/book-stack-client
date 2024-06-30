@@ -79,7 +79,7 @@ export const BookDetailsCard = ({
           <BoldFragment>{publisher.name}</BoldFragment>
         </BasicTypography>
         <div className="flex flex-col justify-end items-end space-y-2 flex-1">
-          <BoldLargeTypography>Quantity: {quantity}</BoldLargeTypography>
+          <BoldLargeTypography>In stock: {quantity}</BoldLargeTypography>
           <BoldLargeTypography>
             {`Price: `}
             <HighlightedTextFragment>{`${price} $`}</HighlightedTextFragment>

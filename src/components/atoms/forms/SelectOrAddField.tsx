@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
 
 import { Button } from '@/components/atoms/Button';
-import { Select } from '@/components/molecules/forms/Select';
+import { Select, SelectOption } from '@/components/molecules/forms/Select';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -37,12 +37,7 @@ export const SelectOrAddField = <
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const {
-    register,
-    setValue,
-    watch,
-    formState: { errors }
-  } = useFormContext();
+  const { register, setValue } = useFormContext();
 
   useEffect(() => {
     register(name);
@@ -51,9 +46,7 @@ export const SelectOrAddField = <
   const innerFormMethods = useForm();
 
   const handleChange = (
-    selectedOptions:
-      | readonly { value: string; label: string }[]
-      | ({ value: string; label: string } | null)
+    selectedOptions: readonly SelectOption[] | (SelectOption | null)
   ) => {
     if (!selectedOptions) return;
 
@@ -61,7 +54,7 @@ export const SelectOrAddField = <
       name,
       Array.isArray(selectedOptions)
         ? selectedOptions.map(({ value }) => value)
-        : (selectedOptions as { value: string; label: string }).value
+        : (selectedOptions as SelectOption).value
     );
   };
 

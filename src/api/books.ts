@@ -19,7 +19,9 @@ import {
 } from '@/graphql/queries';
 
 import {
+  Author,
   Book,
+  Category,
   basicErrorSchema,
   uploadBookCoverSuccessSchema
 } from '@/schemas/books';
@@ -49,14 +51,32 @@ import {
   boughtBooksByUserIdSchema
 } from '@/schemas/queries';
 
+import { yearToDate } from '@/utils/dateUtils';
+
 import { executeGraphQLRequest } from './executeGraphQLRequest';
 import { executeRestRequest } from './executeRestRequest';
 
-export const getAllBooks = async (minQuantity?: number) => {
+export const getAllBooks = async (
+  minQuantity?: number,
+  authorIds?: Author['id'][],
+  categoryIds?: Category['id'][],
+  publicationDateFrom?: number,
+  publicationDateTo?: number
+) => {
   return await executeGraphQLRequest(
     allBooks,
     allBooksSchema as unknown as ZodSchema<AllBooksQuery>,
-    { minQuantity }
+    {
+      minQuantity,
+      authorIds,
+      categoryIds,
+      publicationDateFrom: publicationDateFrom
+        ? yearToDate(publicationDateFrom)
+        : undefined,
+      publicationDateTo: publicationDateTo
+        ? yearToDate(publicationDateTo)
+        : undefined
+    }
   );
 };
 

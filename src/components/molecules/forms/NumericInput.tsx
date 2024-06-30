@@ -21,7 +21,7 @@ export const NumericInput = forwardRef<HTMLInputElement, NumericInputProps>(
     };
 
     return (
-      <div className="flex flex items-baseline space-x-4 max-w-72 justify-between">
+      <div className="flex flex items-center space-x-4 max-w-72 justify-between">
         <label htmlFor={id} className="mb-2 text-md font-medium text-gray-700">
           {label}
         </label>

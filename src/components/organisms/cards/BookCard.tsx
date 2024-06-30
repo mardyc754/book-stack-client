@@ -7,7 +7,10 @@ import { useAuthContext } from '@/hooks/useAuthContext';
 
 import { PrimaryButton } from '@/components/atoms/Button';
 import { PrimaryButtonWithLink } from '@/components/atoms/ButtonWithLink';
-import { HighlightedTypography } from '@/components/atoms/Typography';
+import {
+  BoldTypography,
+  HighlightedTypography
+} from '@/components/atoms/Typography';
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card';
 
 import { getCoverImage } from '@/utils/imageUtils';
@@ -24,7 +27,7 @@ export const BookCard = ({ data, showAddToBasket }: CardProps) => {
     userId: currentUser?.id || '',
     invalidateOnSuccessQueryKey: book.all
   });
-  const { id, authors, categories, price, title, image } = data;
+  const { id, authors, categories, price, title, image, quantity } = data;
   return (
     <Card className="h-full flex flex-col">
       <div className="p-4 flex items-center justify-center">
@@ -44,7 +47,10 @@ export const BookCard = ({ data, showAddToBasket }: CardProps) => {
         </div>
       </CardContent>
       <CardFooter className="justify-end flex-col items-end">
-        <HighlightedTypography>{`${price} $`}</HighlightedTypography>
+        <div className="flex justify-between items-center w-full">
+          <BoldTypography>{`In stock: ${quantity}`}</BoldTypography>
+          <HighlightedTypography>{`${price} $`}</HighlightedTypography>
+        </div>
         <div className="flex space-x-2  items-end space-y-2">
           <PrimaryButtonWithLink href={`/books/${id}`}>
             Details

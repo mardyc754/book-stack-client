@@ -1,8 +1,20 @@
 import { gql } from 'graphql-request';
 
 export const allBooks = gql`
-  query allBooks($minQuantity: Int) {
-    allBooks(minQuantity: $minQuantity) {
+  query allBooks(
+    $minQuantity: Int
+    $authorIds: [ID]
+    $categoryIds: [ID]
+    $publicationDateFrom: String
+    $publicationDateTo: String
+  ) {
+    allBooks(
+      minQuantity: $minQuantity
+      authorIds: $authorIds
+      categoryIds: $categoryIds
+      publicationDateFrom: $publicationDateFrom
+      publicationDateTo: $publicationDateTo
+    ) {
       id
       authors {
         firstName
