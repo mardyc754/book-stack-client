@@ -11,7 +11,7 @@ import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
 import { AdminBookCardGrid } from '@/components/organisms/grids/AdminBookCardGrid';
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
-import { Button } from '../atoms/Button';
+import { PrimaryButton } from '../atoms/Button';
 
 export const Stock = () => {
   const { currentUser } = useAuthContext();
@@ -30,12 +30,12 @@ export const Stock = () => {
       ) : (
         <>
           {currentUser?.role && (
-            <>
-              <Button>
-                <Link to="/add-book">Add book</Link>
-              </Button>
+            <div className="flex flex-col space-y-8">
+              <PrimaryButton className="self-end">
+                <Link to="/add-book">+ Add book</Link>
+              </PrimaryButton>
               <AdminBookCardGrid data={data?.allBooks ?? []} />
-            </>
+            </div>
           )}
         </>
       )}

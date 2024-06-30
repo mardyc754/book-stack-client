@@ -14,17 +14,19 @@ import { CardBody } from '@/components/atoms/card/CardBody';
 import { NumericInput } from '@/components/molecules/forms/NumericInput';
 import { Card, CardTitle } from '@/components/ui/card';
 
+import { getCoverImage } from '@/utils/imageUtils';
+
 interface CardProps {
   bookData: Pick<
     BookWithRelations,
-    'id' | 'price' | 'title' | 'imageUrlM' | 'authors'
+    'id' | 'price' | 'title' | 'authors' | 'image'
   >;
   quantity: Book['quantity'];
 }
 
 export const BookBasketCard = ({ bookData, quantity }: CardProps) => {
   const { currentUser } = useAuthContext();
-  const { authors, price, title, imageUrlM } = bookData;
+  const { authors, price, title, image } = bookData;
   const [newQuantity, setNewQuantity] = useState(quantity);
 
   const { mutate: mutateOnQuantityChange } = useChangeBookQuantityInBasket({
@@ -41,10 +43,10 @@ export const BookBasketCard = ({ bookData, quantity }: CardProps) => {
   });
 
   return (
-    <Card className="flex">
+    <Card className="flex items-center">
       <div className="p-4">
-        <figure>
-          <img src={imageUrlM} alt={title} />
+        <figure className="h-32 w-52 flex justify-center items-center">
+          <img src={getCoverImage(image)} alt={title} className="max-h-full" />
         </figure>
       </div>
       <CardBody>

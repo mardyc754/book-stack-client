@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GraphQLError } from 'graphql';
 
 import { user } from '@/lib/tanstack-query/queryKeys';
 
@@ -28,10 +29,16 @@ export const useChangeUserRole = ({
         title: 'Changed user role  to ' + newRole
       });
     },
-    onError: () => {
+    onError: (error: GraphQLError) => {
+      // if (error?.response.data.changeUserRole === null) {
+      //   toast({
+      //     title: 'Cannot change role to user of a single admin'
+      //   });
+      // } else {
       toast({
         title: 'Error when changing user role'
       });
+      // }
     }
   });
 };

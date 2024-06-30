@@ -30,11 +30,18 @@ export const publisherSchema = z.object({
   name: z.string()
 });
 
+export const imageSchema = z.object({
+  filename: z.string(),
+  type: z.string(),
+  content: z.string().base64()
+  // content: z.string()
+});
+
 export const bookSchema = z.object({
   id: z.string(),
   title: z.string(),
   price: z.number().transform((value) => Number(value).toFixed(2)),
-  image: z.string().base64().nullable().optional(),
+  image: imageSchema.nullable(),
   quantity: z.number().int()
 });
 
@@ -92,11 +99,13 @@ export type BookWithRelations = z.infer<typeof bookWithRelationsSchema>;
 export type BookWithDetails = z.infer<typeof bookWithDetailsSchema>;
 export type BoughtBook = z.infer<typeof boughtBookSchema>;
 export type BoughtBooks = BoughtBook[];
+export type CoverImage = z.infer<typeof imageSchema>;
 
 export const uploadBookCoverSuccessSchema = z.object({
-  id: z.string(),
   filename: z.string(),
-  content: z.string().base64()
+  type: z.string(),
+  content: z.string().base64(),
+  bookId: z.number().int()
 });
 
 export type UploadBookCoverSuccess = z.infer<

@@ -19,6 +19,8 @@ import {
 } from '@/components/atoms/Typography';
 import { CardTitle } from '@/components/atoms/card/CardTitle';
 
+import { getCoverImage } from '@/utils/imageUtils';
+
 type BookDetailsCardProps = {
   data: BookWithDetails;
   addToBasketDisabled?: boolean;
@@ -39,7 +41,7 @@ export const BookDetailsCard = ({
   const {
     title,
     authors,
-    imageUrlL,
+    image,
     categories,
     publicationDate,
     price,
@@ -48,10 +50,10 @@ export const BookDetailsCard = ({
   } = data;
   return (
     <div className="grid grid-cols-12">
-      <Figure className="flex flex-1 px-16 col-span-5 col-start-2">
-        <Image src={imageUrlL} alt={title} />
+      <Figure className="flex flex-1 px-16 col-span-5 col-start-1 h-96">
+        <Image src={getCoverImage(image)} alt={title} />
       </Figure>
-      <div className="flex flex-col flex-1 col-span-5">
+      <div className="flex flex-col flex-1 col-span-6">
         <CardTitle size="large">{title}</CardTitle>
         <Divider />
         <BasicTypography>

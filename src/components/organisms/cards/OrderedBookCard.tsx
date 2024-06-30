@@ -7,22 +7,24 @@ import {
 import { CardBody } from '@/components/atoms/card/CardBody';
 import { Card, CardTitle } from '@/components/ui/card';
 
+import { getCoverImage } from '@/utils/imageUtils';
+
 interface CardProps {
   bookData: Pick<
     BookWithRelations,
-    'id' | 'price' | 'title' | 'imageUrlM' | 'authors'
+    'id' | 'price' | 'title' | 'image' | 'authors'
   >;
   quantity: Book['quantity'];
 }
 
 export const OrderedBookCard = ({ bookData, quantity }: CardProps) => {
-  const { authors, price, title, imageUrlM } = bookData;
+  const { authors, price, title, image } = bookData;
 
   return (
-    <Card className="flex">
+    <Card className="flex items-center">
       <div className="p-4">
-        <figure>
-          <img src={imageUrlM} alt={title} />
+        <figure className="h-32 w-52 flex justify-center items-center">
+          <img src={getCoverImage(image)} alt={title} className="max-h-full" />
         </figure>
       </div>
       <CardBody>

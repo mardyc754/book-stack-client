@@ -39,6 +39,7 @@ export const addBookToCartMutation = gql`
           title
           price
           image {
+            type
             filename
             content
           }
@@ -73,7 +74,11 @@ export const changeBookQuantityInCartMutation = gql`
           id
           title
           price
-          image
+          image {
+            type
+            filename
+            content
+          }
           authors {
             firstName
             lastName
@@ -97,7 +102,11 @@ export const removeBookFromCartMutation = gql`
           id
           title
           price
-          imageUrlM
+          image {
+            type
+            filename
+            content
+          }
           authors {
             firstName
             lastName
@@ -135,6 +144,7 @@ export const addBookToStockMutation = gql`
       title
       price
       image {
+        type
         filename
         content
       }
@@ -224,6 +234,7 @@ export const addBookMutation = gql`
       price
       quantity
       image {
+        type
         filename
         content
       }

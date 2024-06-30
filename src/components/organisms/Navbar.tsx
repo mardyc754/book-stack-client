@@ -84,7 +84,7 @@ export const Navbar = () => {
                 <NavigationMenuItem>
                   <Link to="/basket" className={navigationMenuTriggerStyle()}>
                     <div className="flex space-x-2 items-center">
-                      <span>Cart</span>
+                      <span>Basket</span>
                     </div>
                   </Link>
                 </NavigationMenuItem>

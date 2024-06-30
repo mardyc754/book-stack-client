@@ -17,6 +17,7 @@ export const allBooks = gql`
       image {
         filename
         content
+        type
       }
       quantity
     }
@@ -46,6 +47,7 @@ export const bookById = gql`
       image {
         filename
         content
+        type
       }
       quantity
     }
@@ -77,6 +79,7 @@ export const basketByUserId = gql`
           image {
             filename
             content
+            type
           }
           authors {
             firstName
@@ -102,6 +105,7 @@ export const boughtBooksByUserId = gql`
         image {
           filename
           content
+          type
         }
         authors {
           firstName

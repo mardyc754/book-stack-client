@@ -1,14 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { GraphQLError } from 'graphql';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  author,
-  book,
-  category,
-  publisher
-} from '@/lib/tanstack-query/queryKeys';
+import { author, category, publisher } from '@/lib/tanstack-query/queryKeys';
 import { cn } from '@/lib/utils';
 
 import {
@@ -22,7 +17,6 @@ import {
   uploadBookCoverImage
 } from '@/api/books';
 
-import { UploadBookCoverSuccess } from '@/schemas/books';
 import {
   AddBookFormData,
   AddBookMutation,
@@ -44,7 +38,6 @@ import {
 } from '@/utils/generateSelectOptions';
 
 export const AddBookForm = () => {
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const methods = useForm<AddBookFormData>({
@@ -66,56 +59,25 @@ export const AddBookForm = () => {
     queryFn: getAllCategories
   });
 
-  //   const mutation = useMutation<LoginResponse, GraphQLError, LoginData>({
-  //     mutationFn: login,
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries({ queryKey: user.all });
-  //       return navigate('/');
-  //     },
-  //     onError: (error) => {
-  //       setError('username', { message: error.message });
-  //       return;
-  //     }
-  //   });
-
-  //   const onSubmit = handleSubmit((values, e) => {
-  //     e?.preventDefault();
-
-  //     // mutation.mutate(values);
-  //   });
-  const { mutate: addBookMutation, data: mutationResult } = useMutation<
+  const { mutateAsync: addBookMutation } = useMutation<
     AddBookMutation,
     GraphQLError,
     AddBookFormData
   >({
-    mutationFn: () => addBook(methods.getValues())
-    // onSuccess: () => {
-    //   queryClient.invalidateQueries({ queryKey: book.all });
-    //   // methods.reset();
-    // }
+    mutationFn: () => addBook(methods.getValues()),
+    onSuccess: async (data) => {
+      const coverImage = methods.getValues('image');
+      if (coverImage) {
+        await uploadBookCoverImage(data.addBook.id, coverImage);
+      }
+      navigate('/stock');
+    }
   });
 
-  // const { mutate: uploadBookCoverImageMutation } = useMutation({
-  //   mutationFn: () =>
-  //     uploadBookCoverImage(
-  //       mutationResult?.addBook.id,
-  //       methods.getValues('image')
-  //     ),
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries({ queryKey: book.all });
-  //     // methods.reset();
-  //   }
-  // });
-
-  const onSubmit = methods.handleSubmit((values, e) => {
+  const onSubmit = methods.handleSubmit(async (values, e) => {
     e?.preventDefault();
-    addBookMutation(values);
-    // uploadBookCoverImageMutation();
-    console.log('>>>> submit successful', values);
+    await addBookMutation(values);
   });
-
-  console.log(methods.watch());
-  console.log('>>>>> errors', methods.formState.errors);
 
   return (
     <FormProvider {...methods}>
@@ -144,9 +106,17 @@ export const AddBookForm = () => {
             options: generateAuthorSelectOptions(authors?.allAuthors ?? [])
           }}
           label="Author"
-          placeholder="Add new Author"
           addButtonText="Add Author"
-          addFieldNames={['firstName', 'lastName']}
+          addFieldData={[
+            {
+              name: 'firstName',
+              placeholder: 'First name'
+            },
+            {
+              name: 'lastName',
+              placeholder: 'Last Name'
+            }
+          ]}
           addFunction={addAuthor}
           addFieldPrefix="author"
           addFunctionQueryKey={author.all}
@@ -161,11 +131,15 @@ export const AddBookForm = () => {
             )
           }}
           label="Publisher"
-          placeholder="Add new Publisher"
           addButtonText="Add Publisher"
           addFunction={addPublisher}
           addFunctionQueryKey={publisher.all}
-          addFieldNames={['name']}
+          addFieldData={[
+            {
+              name: 'name',
+              placeholder: 'Publisher name'
+            }
+          ]}
           addFieldPrefix="publisher"
         />
         <Textfield
@@ -196,11 +170,15 @@ export const AddBookForm = () => {
             )
           }}
           label="Categories"
-          placeholder="Add new Category"
           addButtonText="Add Category"
           addFunction={addCategory}
           addFunctionQueryKey={category.all}
-          addFieldNames={['name']}
+          addFieldData={[
+            {
+              name: 'name',
+              placeholder: 'Add new Category'
+            }
+          ]}
           addFieldPrefix="category"
         />
 

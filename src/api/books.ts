@@ -166,7 +166,7 @@ export const addBook = async (bookData: AddBookFormData) => {
 export const uploadBookCoverImage = async (bookId: string, image: File) => {
   const formData = new FormData();
   formData.append('image', image, image.name);
-  formData.append('bookId', bookId);
+  formData.append('bookId', new Blob([bookId], { type: 'application/json' }));
   return await executeRestRequest({
     path: '/images/upload',
     method: 'post',
@@ -174,7 +174,7 @@ export const uploadBookCoverImage = async (bookId: string, image: File) => {
     errorSchema: basicErrorSchema,
     data: formData,
     headers: {
-      'content-type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data'
     }
   });
 };

@@ -1,27 +1,24 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, InputHTMLAttributes, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm, useFormContext } from 'react-hook-form';
-import { ActionMeta } from 'react-select';
 
 import { Button } from '@/components/atoms/Button';
 import { Select } from '@/components/molecules/forms/Select';
-import { Textfield } from '@/components/molecules/forms/Textfield';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 interface SelectOrAddFieldProps<
   AddFieldOptions extends Record<string, string>,
   ReturnedQuery
 > {
   label: string;
-  placeholder: string;
   addButtonText: string;
   name: string;
   selectProps: Omit<React.ComponentProps<typeof Select>, 'name' | 'onChange'>;
   addFunction: (value: AddFieldOptions) => Promise<ReturnedQuery>;
   addFunctionQueryKey: readonly string[];
   addFieldPrefix: string;
-  addFieldNames: string[];
+  addFieldData: { name: string; placeholder: string }[];
 }
 
 export const SelectOrAddField = <
@@ -29,20 +26,21 @@ export const SelectOrAddField = <
   ReturnedQuery
 >({
   label,
-  placeholder,
   addButtonText,
   name,
   selectProps,
   addFunction,
   addFunctionQueryKey,
   addFieldPrefix,
-  addFieldNames
+  addFieldData
 }: SelectOrAddFieldProps<AddFieldOptions, ReturnedQuery>) => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const {
     register,
     setValue,
+    watch,
     formState: { errors }
   } = useFormContext();
 
@@ -51,17 +49,6 @@ export const SelectOrAddField = <
   }, [register, name]);
 
   const innerFormMethods = useForm();
-
-  const { mutate } = useMutation({
-    mutationFn: () => addFunction(innerFormMethods.watch(addFieldPrefix)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: addFunctionQueryKey });
-      innerFormMethods.resetField(addFieldPrefix);
-    },
-    onError: (error) => {
-      // toast.se
-    }
-  });
 
   const handleChange = (
     selectedOptions:
@@ -78,8 +65,25 @@ export const SelectOrAddField = <
     );
   };
 
+  const { mutate } = useMutation({
+    mutationFn: () => addFunction(innerFormMethods.watch(addFieldPrefix)),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: addFunctionQueryKey });
+      addFieldData.forEach(({ name }) => {
+        innerFormMethods.resetField(`${addFieldPrefix}.${name}`);
+      });
+      toast({
+        title: 'Data added successfully. Click on dropdown to set new data'
+      });
+    },
+    onError: () => {
+      toast({
+        title: 'Error when adding new data'
+      });
+    }
+  });
+
   const handleInnerFormSubmit = innerFormMethods.handleSubmit((values, e) => {
-    // console.log('>>>>>>>> values', values);
     e?.preventDefault();
 
     mutate(values[addFieldPrefix]);
@@ -96,7 +100,7 @@ export const SelectOrAddField = <
           name={name}
         />
         <span>or</span>
-        {addFieldNames.map((fieldName) => (
+        {addFieldData.map(({ name: fieldName, placeholder }) => (
           <Input
             key={`${addFieldPrefix}.${fieldName}`}
             placeholder={placeholder}
