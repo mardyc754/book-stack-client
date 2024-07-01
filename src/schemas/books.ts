@@ -34,7 +34,6 @@ export const imageSchema = z.object({
   filename: z.string(),
   type: z.string(),
   content: z.string().base64()
-  // content: z.string()
 });
 
 export const bookSchema = z.object({
@@ -72,7 +71,8 @@ export const basketSchema = z.object({
         title: true,
         price: true,
         image: true,
-        authors: true
+        authors: true,
+        quantity: true
       }),
       quantity: z.number().int()
     })

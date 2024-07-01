@@ -85,7 +85,7 @@ export const BookDetailsCard = ({
             <HighlightedTextFragment>{`${price} $`}</HighlightedTextFragment>
           </BoldLargeTypography>
           <PrimaryStretchedButton
-            disabled={addToBasketDisabled}
+            disabled={addToBasketDisabled || quantity === 0}
             onClick={() => {
               mutate();
             }}

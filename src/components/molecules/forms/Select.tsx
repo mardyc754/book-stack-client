@@ -5,9 +5,12 @@ export type SelectOption = {
   value: string;
 };
 
-interface SelectProps
+export type SelectOnChangeFunction = (
+  selectedOptions: readonly SelectOption[] | SelectOption | null
+) => void;
+export interface SelectProps
   extends Omit<React.ComponentProps<typeof ReactSelect>, 'onChange'> {
-  onChange: (value: readonly SelectOption[] | SelectOption | null) => void;
+  onChange: SelectOnChangeFunction;
 }
 
 export const Select = ({ onChange, ...props }: SelectProps) => {

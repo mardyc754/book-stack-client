@@ -19,14 +19,14 @@ import { getCoverImage } from '@/utils/imageUtils';
 interface CardProps {
   bookData: Pick<
     BookWithRelations,
-    'id' | 'price' | 'title' | 'authors' | 'image'
+    'id' | 'price' | 'title' | 'authors' | 'image' | 'quantity'
   >;
   quantity: Book['quantity'];
 }
 
 export const BookBasketCard = ({ bookData, quantity }: CardProps) => {
   const { currentUser } = useAuthContext();
-  const { authors, price, title, image } = bookData;
+  const { authors, price, title, image, quantity: inStoreQuantity } = bookData;
   const [newQuantity, setNewQuantity] = useState(quantity);
 
   const { mutate: mutateOnQuantityChange } = useChangeBookQuantityInBasket({
@@ -58,6 +58,7 @@ export const BookBasketCard = ({ bookData, quantity }: CardProps) => {
               .join(', ')}
           </p>
           <HighlightedTypography fontSize="text-xl">{`${price} $`}</HighlightedTypography>
+          <p>{`In store: ${inStoreQuantity}`}</p>
         </div>
         <div className="flex self-end items-baseline space-x-4">
           <NumericInput

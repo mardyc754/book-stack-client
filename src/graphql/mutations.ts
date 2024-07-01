@@ -83,6 +83,7 @@ export const changeBookQuantityInCartMutation = gql`
             firstName
             lastName
           }
+          quantity
         }
         quantity
       }
@@ -111,6 +112,7 @@ export const removeBookFromCartMutation = gql`
             firstName
             lastName
           }
+          quantity
         }
         quantity
       }
@@ -168,6 +170,7 @@ export const changeBookPriceMutation = gql`
       title
       price
       image {
+        type
         filename
         content
       }

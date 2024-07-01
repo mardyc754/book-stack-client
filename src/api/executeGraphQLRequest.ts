@@ -1,6 +1,6 @@
 import { GraphQLError } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
-import type { ZodSchema } from 'zod';
+import { ZodError, type ZodSchema } from 'zod';
 
 import { GraphQLErrorResponse } from '@/types/common';
 
@@ -30,6 +30,14 @@ export const executeGraphQLRequest = async <T>(
         .map((error) => error.message)
         .join('\n')
     );
+  }
+
+  try {
+    parser.parse(response);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      console.error(error.errors.map((err) => err.message).join('\n'));
+    }
   }
 
   const parsedResponse = parser.parse(response);

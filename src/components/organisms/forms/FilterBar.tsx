@@ -1,11 +1,11 @@
-import { useQueryClient } from '@tanstack/react-query';
-
-import { book } from '@/lib/tanstack-query/queryKeys';
-
 import { Author, Category } from '@/schemas/books';
 
 import { NumericInput } from '@/components/molecules/forms/NumericInput';
-import { Select, type SelectOption } from '@/components/molecules/forms/Select';
+import {
+  Select,
+  SelectOnChangeFunction,
+  type SelectOption
+} from '@/components/molecules/forms/Select';
 
 import {
   generateAuthorSelectOptions,
@@ -29,16 +29,6 @@ export const FilterBar = ({
   onChangePublicationYearFrom,
   onChangePublicationYearTo
 }: FilterBarProps) => {
-  //   const { data: authors } = useQuery({
-  //     queryKey: author.all,
-  //     queryFn: getAllAuthors
-  //   });
-
-  //   const { data: categories } = useQuery({
-  //     queryKey: category.all,
-  //     queryFn: getAllCategories
-  //   });
-
   const handleAuthorChange = (selectedAuthors: readonly SelectOption[]) => {
     const authorIds = selectedAuthors.map(({ value }) => value);
     onChangeAuthors(authorIds);
@@ -54,14 +44,14 @@ export const FilterBar = ({
       <Select
         className="w-72"
         isMulti
-        onChange={handleAuthorChange}
+        onChange={handleAuthorChange as SelectOnChangeFunction}
         placeholder="Filter by author"
         options={generateAuthorSelectOptions(authors)}
       />
       <Select
         className="w-72"
         isMulti
-        onChange={handleCategoryChange}
+        onChange={handleCategoryChange as SelectOnChangeFunction}
         placeholder="Filter by category"
         options={generateCategorySelectOptions(categories)}
       />

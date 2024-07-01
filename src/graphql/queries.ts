@@ -97,6 +97,7 @@ export const basketByUserId = gql`
             firstName
             lastName
           }
+          quantity
         }
         quantity
       }

@@ -1,28 +1,40 @@
-import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 
-import { book } from '@/lib/tanstack-query/queryKeys';
-
-import { getAllBooks } from '@/api/books';
-
 import { useAuthContext } from '@/hooks/useAuthContext';
+import { useBookData } from '@/hooks/useBookData';
 
 import { LoadingSpinner } from '@/components/atoms/LoadingSpinner';
 import { AdminBookCardGrid } from '@/components/organisms/grids/AdminBookCardGrid';
 import { PageWrapper } from '@/components/templates/PageWrapper';
 
 import { PrimaryButton } from '../atoms/Button';
+import { FilterBar } from '../organisms/forms/FilterBar';
 
 export const Stock = () => {
   const { currentUser } = useAuthContext();
 
-  const { data, error, isLoading } = useQuery({
-    queryKey: book.all,
-    queryFn: () => getAllBooks(-1)
-  });
+  const {
+    setSelectedAuthorIds,
+    setSelectedCategoryIds,
+    setPublicationYearFrom,
+    setPublicationYearTo,
+    authors,
+    categories,
+    allBooks,
+    isLoading,
+    error
+  } = useBookData();
 
   return (
     <PageWrapper title="Stock">
+      <FilterBar
+        authors={authors}
+        categories={categories}
+        onChangeAuthors={setSelectedAuthorIds}
+        onChangeCategories={setSelectedCategoryIds}
+        onChangePublicationYearFrom={setPublicationYearFrom}
+        onChangePublicationYearTo={setPublicationYearTo}
+      />
       {isLoading ? (
         <div className="p-8">
           <LoadingSpinner message="Loading data..." />
@@ -34,7 +46,7 @@ export const Stock = () => {
               <PrimaryButton className="self-end">
                 <Link to="/add-book">+ Add book</Link>
               </PrimaryButton>
-              <AdminBookCardGrid data={data?.allBooks ?? []} />
+              <AdminBookCardGrid data={allBooks ?? []} />
             </div>
           )}
         </>

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 
-// import bookcase from '@/assets/bookcases.jpg';
 import { Navbar } from '@/components/organisms/Navbar';
 
 type PageWrapperProps = {
@@ -11,11 +10,6 @@ type PageWrapperProps = {
 export const PageWrapper = ({ children, title }: PageWrapperProps) => {
   return (
     <div className="w-full flex flex-col relative">
-      {/* <img
-        src={bookcase}
-        alt="bookcase"
-        className="w-full h-full object-cover absolute z-0"
-      /> */}
       <div className="navbar justify-between min-h-[10vh] border-b-2 border-b-base-content px-8">
         <header className="navbar-start">
           <h1>
