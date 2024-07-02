@@ -92,7 +92,7 @@ export const BookDetailsCard = ({
           >
             {addToBasketDisabled
               ? 'Login to add the book to cart'
-              : 'Add to cart'}
+              : 'Add to basket'}
           </PrimaryStretchedButton>
         </div>
       </div>

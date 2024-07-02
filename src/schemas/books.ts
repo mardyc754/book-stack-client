@@ -50,7 +50,7 @@ export const bookWithRelationsSchema = bookSchema.extend({
 });
 
 export const bookWithDetailsSchema = bookWithRelationsSchema.extend({
-  description: z.string().optional(),
+  description: z.string().nullish(),
   ISBN: z.string(),
   pageCount: z.number().int(),
   publicationDate: z

@@ -7,7 +7,7 @@ import { getAllAuthors, getAllBooks, getAllCategories } from '@/api/books';
 
 import { Author, Category } from '@/schemas/books';
 
-export const useBookData = (minQuantity = 0) => {
+export const useBookData = (minQuantity = -1) => {
   const [selectedAuthorIds, setSelectedAuthorIds] = useState<Author['id'][]>(
     []
   );

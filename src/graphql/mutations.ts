@@ -47,6 +47,7 @@ export const addBookToCartMutation = gql`
             firstName
             lastName
           }
+          quantity
         }
         quantity
       }

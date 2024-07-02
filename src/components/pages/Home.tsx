@@ -16,7 +16,7 @@ export const Home = () => {
     allBooks,
     isLoading,
     error
-  } = useBookData(1);
+  } = useBookData(0);
 
   return (
     <PageWrapper title="Home">
